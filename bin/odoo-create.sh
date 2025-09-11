@@ -185,7 +185,7 @@ validate_template() {
     
     # Verificar archivos esenciales
     local required_files=(
-        "docker-compose.yml" "env.example" "README.md" ".gitignore"
+        "docker-compose.yml" ".env.j2" "README.md" ".gitignore"
         "build/Dockerfile" "build/requirements.txt" "etc/odoo.conf.j2" "config/db/init.sql"
     )
     
@@ -238,38 +238,108 @@ copy_template() {
     return 0
 }
 
-# Generar archivo .env personalizado
+# Generar archivo .env desde plantilla Jinja2
 generate_env_file() {
     local env_file="$PROJECT_DIR/.env"
-    local env_example="$PROJECT_DIR/env.example"
+    local env_template="$PROJECT_DIR/.env.j2"
     
-    # Copiar env.example como base
-    cp "$env_example" "$env_file"
-    
-    # Sustituir variables específicas del cliente
-    if command -v sed &> /dev/null; then
-        # Sustituir PROJECT_NAME
-        sed -i.bak "s/placeholder/$CLIENT_NAME/g" "$env_file"
-        
-        # Sustituir PROJECT_TYPE
-        sed -i.bak "s/PROJECT_TYPE=placeholder/PROJECT_TYPE=$PROJECT_TYPE/g" "$env_file"
-        
-        # Generar contraseñas aleatorias si es posible
-        if command -v openssl &> /dev/null; then
-            local db_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
-            local redis_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
-            local pgadmin_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
-            
-            sed -i.bak "s/change_me/$db_password/g" "$env_file"
-            sed -i.bak "s/REDIS_PASSWORD=change_me/REDIS_PASSWORD=$redis_password/g" "$env_file"
-            sed -i.bak "s/PGADMIN_PASSWORD=change_me/PGADMIN_PASSWORD=$pgadmin_password/g" "$env_file"
-        fi
-        
-        # Limpiar archivos de respaldo
-        rm -f "$env_file.bak"
+    # Verificar si existe la plantilla
+    if [ ! -f "$env_template" ]; then
+        error "Plantilla .env.j2 no encontrada"
+        return 1
     fi
     
-    return 0
+    # Verificar si jinja2 está disponible
+    if ! command -v python3 &> /dev/null; then
+        error "Python3 requerido para generar .env desde plantilla Jinja2"
+        return 1
+    fi
+    
+    # Generar contraseñas aleatorias
+    local db_password="odoo"
+    local redis_password=""
+    local pgadmin_password="admin"
+    local odoo_password="odoo"
+    local odoo_admin_password="admin"
+    
+    if command -v openssl &> /dev/null; then
+        db_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+        redis_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+        pgadmin_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+        odoo_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+        odoo_admin_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+    fi
+    
+    # Crear script Python temporal para procesar Jinja2
+    cat > /tmp/generate_env.py << EOF
+import os
+import sys
+from jinja2 import Template
+
+# Datos de configuración
+env_data = {
+    'project_name': '$CLIENT_NAME',
+    'project_type': '$PROJECT_TYPE',
+    'environment': 'development',
+    'odoo_version': '17.0',
+    'odoo_port': '8069',
+    'odoo_password': '$odoo_password',
+    'odoo_admin_password': '$odoo_admin_password',
+    'db_host': 'db',
+    'db_port': '5432',
+    'db_name': 'odoo',
+    'db_user': 'odoo',
+    'db_password': '$db_password',
+    'redis_host': 'redis',
+    'redis_port': '6379',
+    'redis_password': '$redis_password',
+    'pgadmin_port': '8080',
+    'pgadmin_email': 'admin@example.com',
+    'pgadmin_password': '$pgadmin_password',
+    'log_level': 'info',
+    'log_handler': ':INFO',
+    'debug_mode': 'True',
+    'auto_reload': 'True',
+    'workers': '2',
+    'smtp_enabled': False,
+    'smtp_server': '',
+    'smtp_port': '587',
+    'smtp_user': '',
+    'smtp_password': '',
+    'smtp_ssl': 'True',
+    'backup_enabled': False,
+    'backup_schedule': '0 2 * * *',
+    'backup_retention_days': '30'
+}
+
+try:
+    # Leer plantilla
+    with open('$env_template', 'r') as f:
+        template_content = f.read()
+    
+    # Procesar plantilla
+    template = Template(template_content)
+    rendered_content = template.render(**env_data)
+    
+    # Escribir archivo .env
+    with open('$env_file', 'w') as f:
+        f.write(rendered_content)
+    
+    print("Archivo .env generado exitosamente")
+    
+except Exception as e:
+    print(f"Error generando .env: {e}")
+    sys.exit(1)
+EOF
+    
+    # Ejecutar script Python
+    if python3 /tmp/generate_env.py; then
+        rm -f /tmp/generate_env.py
+        return 0
+    else
+        rm -f /tmp/generate_env.py
+        return 1
+    fi
 }
 
 # Generar archivo odoo.conf desde plantilla Jinja2
