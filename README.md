@@ -1,15 +1,22 @@
 # 🚀 Odoo Development Workspace
 
-Un workspace organizado para el desarrollo de múltiples proyectos Odoo, diseñado para gestionar proyectos por cliente, verticales de negocio y módulos reutilizables.
+Un workspace organizado para el desarrollo de múltiples proyectos Odoo con sistema de scaffolding automatizado, diseñado para gestionar proyectos por cliente, verticales de negocio y módulos reutilizables usando contenedores.
 
 ## 📁 Estructura del Workspace
 
 ```text
 odoo-workspace/
 ├── bin/                    # Scripts compartidos y herramientas
+│   ├── .odoodevs          # Marcador de workspace (solo lectura)
+│   ├── create-project.sh   # Scaffolding de proyectos Odoo
+│   ├── build-image.sh      # Construcción de imágenes Docker/Podman
+│   └── odoodevs-path.sh    # Configuración del PATH
 ├── clientes/               # Proyectos específicos por cliente
 ├── docs/                   # Documentación compartida
 ├── modulos/                # Módulos reutilizables
+├── scaffolding/            # Plantillas para scaffolding
+│   └── templates/
+│       └── projects/        # Plantilla base de proyectos Odoo
 ├── sops/                   # Archivos de secretos gestionados por SOPS
 ├── verticales/             # Proyectos por vertical de negocio
 └── .gitignore              # Configuración de Git
@@ -20,6 +27,8 @@ odoo-workspace/
 Este workspace está diseñado para:
 
 - **Gestionar múltiples proyectos Odoo** de manera organizada
+- **Crear proyectos automáticamente** usando sistema de scaffolding
+- **Desarrollar con contenedores** (Docker/Podman) para consistencia
 - **Reutilizar módulos** entre diferentes clientes y verticales
 - **Automatizar tareas comunes** con scripts centralizados
 - **Mantener separación clara** entre desarrollo, staging y producción
@@ -31,8 +40,10 @@ Este workspace está diseñado para:
 
 Contiene scripts y herramientas que se aplican a todos los proyectos:
 
-- Scripts de creación de proyectos
-- Herramientas de configuración de secretos
+- **`.odoodevs`** - Marcador de workspace (archivo de solo lectura)
+- **`create-project.sh`** - Scaffolding automático de proyectos Odoo
+- **`build-image.sh`** - Construcción de imágenes Docker/Podman personalizadas
+- **`odoodevs-path.sh`** - Configuración del PATH para comandos globales
 - Scripts de backup y deploy
 - Utilidades comunes
 
@@ -40,9 +51,10 @@ Contiene scripts y herramientas que se aplican a todos los proyectos:
 
 Proyectos específicos desarrollados para clientes particulares:
 
-- Cada cliente tiene su propia carpeta
-- Configuraciones específicas por cliente
-- Módulos personalizados únicos
+- Cada cliente tiene su propia carpeta generada automáticamente
+- Configuraciones específicas por cliente (Docker Compose, .env)
+- Módulos personalizados únicos en carpeta `addons/`
+- Imágenes Docker personalizadas por cliente
 
 ### `docs/` - Documentación
 
@@ -72,6 +84,15 @@ Archivos de secretos del entorno gestionados por [Secrets OPerationS (SOPS)](htt
 - Credenciales de bases de datos
 - Configuraciones por entorno (dev/staging/prod)
 
+### `scaffolding/` - Sistema de Plantillas
+
+Plantillas para generar proyectos automáticamente:
+
+- **`templates/projects/`** - Plantilla base para proyectos Odoo
+- Estructura completa con Docker Compose, configuración y documentación
+- Archivos de configuración predefinidos (.env, odoo.conf, init.sql)
+- Dockerfile personalizable para imágenes específicas
+
 ### `verticales/` - Proyectos por Vertical
 
 Proyectos organizados por industria o vertical de negocio:
@@ -93,27 +114,49 @@ cd [odoo-workspace]
 
 # Verificar estructura
 ls -la
+
+# Configurar PATH para comandos globales (opcional)
+./bin/odoodevs-path.sh set
+source ~/.bashrc  # o reiniciar terminal
 ```
 
 ### 2. Crear un Nuevo Proyecto
 
 ```bash
-# Usar script de creación (cuando esté disponible)
-./bin/setup-project.sh nuevo-proyecto cliente-a
+# Crear proyecto de cliente
+./bin/create-project.sh mi-cliente cliente
+
+# Crear proyecto vertical
+./bin/create-project.sh industria-textil vertical
 ```
 
-### 3. Configurar Secretos
+### 3. Construir Imagen Personalizada
 
 ```bash
-# Configurar variables de entorno
-./bin/setup-secrets.sh proyecto-cliente-a
+# Navegar al proyecto creado
+cd clientes/mi-cliente  # o verticales/industria-textil
+
+# Construir imagen Docker/Podman personalizada
+./bin/build-image.sh
+```
+
+### 4. Levantar Servicios
+
+```bash
+# Levantar servicios con Docker Compose
+docker-compose up -d
+
+# Acceder a Odoo
+# http://localhost:8069
 ```
 
 ## 🛠️ Scripts Disponibles
 
 | Script | Descripción |
 |--------|-------------|
-| `setup-project.sh` | Crear nuevo proyecto completo |
+| `create-project.sh` | Scaffolding automático de proyectos Odoo |
+| `build-image.sh` | Construcción de imágenes Docker/Podman personalizadas |
+| `odoodevs-path.sh` | Configuración del PATH para comandos globales |
 | `setup-secrets.sh` | Configurar variables de entorno |
 | `backup-project.sh` | Backup automático de proyecto |
 | `deploy-project.sh` | Deploy a diferentes entornos |
@@ -167,5 +210,5 @@ Para problemas o preguntas:
 
 ---
 
-**Última actualización**: $(date +"%Y-%m-%d")
-**Versión**: 1.0.0
+**Última actualización**: 2024-09-11
+**Versión**: 2.0.0
