@@ -79,6 +79,11 @@ ESTRUCTURA CREADA:
     │   ├── .gitignore
     │   └── README.md
 
+REQUISITOS:
+    - Debe ejecutarse desde la raíz del workspace Odoo
+    - El directorio actual debe contener la carpeta 'bin'
+    - Debe existir el archivo 'bin/.odoodevs'
+
 NOTAS:
     - El script valida que no exista un proyecto con el mismo nombre
     - Genera automáticamente el archivo .env con las variables del cliente
@@ -313,6 +318,38 @@ show_project_summary() {
     echo "📚 Documentación: Ver README.md en el proyecto"
 }
 
+# Validar directorio de ejecución
+validate_execution_directory() {
+    log "Validando directorio de ejecución..."
+    
+    # Obtener directorio actual de ejecución
+    local current_dir="$(pwd)"
+    
+    # Verificar que existe la carpeta bin
+    if [ ! -d "$current_dir/bin" ]; then
+        error "No se encontró la carpeta 'bin' en el directorio actual"
+        error "Directorio actual: $current_dir"
+        error "Este script debe ejecutarse desde la raíz del workspace Odoo"
+        error "Asegúrate de estar en el directorio que contiene la carpeta 'bin'"
+        return 1
+    fi
+    
+    # Verificar que existe el archivo .odoodevs en bin
+    if [ ! -f "$current_dir/bin/.odoodevs" ]; then
+        error "No se encontró el archivo '.odoodevs' en la carpeta bin"
+        error "Archivo esperado: $current_dir/bin/.odoodevs"
+        error "Este archivo es requerido para validar el workspace Odoo"
+        return 1
+    fi
+    
+    success "Directorio de ejecución validado correctamente"
+    log "Directorio actual: $current_dir"
+    log "Carpeta bin encontrada: $current_dir/bin"
+    log "Archivo .odoodevs encontrado: $current_dir/bin/.odoodevs"
+    
+    return 0
+}
+
 # Función principal
 main() {
     # Verificar si se solicita ayuda
@@ -325,6 +362,9 @@ main() {
     log "Directorio del script: $SCRIPT_DIR"
     log "Directorio del workspace: $WORKSPACE_ROOT"
     log "Directorio de plantilla: $TEMPLATE_DIR"
+    
+    # Validar directorio de ejecución primero
+    validate_execution_directory || exit 1
     
     # Ejecutar validaciones y creación
     validate_parameters "$@" || exit 1
