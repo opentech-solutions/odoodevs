@@ -56,44 +56,51 @@ docker-compose logs -f odoo
 
 ### 3. Acceder a la Aplicación
 
-- **Odoo**: http://localhost:8069
-- **PgAdmin**: http://localhost:8080 (solo desarrollo)
+- **Odoo**: [http://localhost:8069](http://localhost:8069)
+- **PgAdmin**: [http://localhost:8080](http://localhost:8080) (solo desarrollo)
 
 ## 🛠️ Servicios Incluidos
 
 ### **Odoo**
+
 - Aplicación principal
 - Puerto: 8069
 - Configuración: `config/odoo.conf`
 
 ### **PostgreSQL**
+
 - Base de datos
 - Puerto: 5432
 - Usuario: odoo
 - Base de datos: odoo
 
 ### **Redis**
+
 - Cache y sesiones
 - Puerto: 6379
 
 ### **PgAdmin** (Solo desarrollo)
+
 - Administración de base de datos
 - Puerto: 8080
-- Email: admin@example.com
+- Email: [admin@example.com](mailto:admin@example.com)
 
 ## 📝 Variables de Entorno
 
 ### **Configuración del Proyecto**
+
 - `PROJECT_NAME`: Nombre del proyecto del cliente
 - `PROJECT_TYPE`: Tipo (cliente)
 - `ENVIRONMENT`: Entorno (development/staging/production)
 
 ### **Configuración de Odoo**
+
 - `ODOO_PORT`: Puerto de Odoo (8069)
 - `ODOO_PASSWORD`: Contraseña de administrador
 - `ODOO_ADMIN_PASSWORD`: Contraseña de admin
 
 ### **Configuración de Base de Datos**
+
 - `DB_HOST`: Host de la base de datos
 - `DB_PORT`: Puerto de PostgreSQL
 - `DB_NAME`: Nombre de la base de datos
@@ -101,6 +108,7 @@ docker-compose logs -f odoo
 - `DB_PASSWORD`: Contraseña de la base de datos
 
 ### **Configuración de Redis**
+
 - `REDIS_HOST`: Host de Redis
 - `REDIS_PORT`: Puerto de Redis
 - `REDIS_PASSWORD`: Contraseña de Redis
@@ -108,6 +116,7 @@ docker-compose logs -f odoo
 ## 🔧 Comandos Útiles
 
 ### **Gestión de Servicios**
+
 ```bash
 # Iniciar servicios
 docker-compose up -d
@@ -123,6 +132,7 @@ docker-compose ps
 ```
 
 ### **Logs**
+
 ```bash
 # Ver logs de todos los servicios
 docker-compose logs -f
@@ -133,6 +143,7 @@ docker-compose logs -f db
 ```
 
 ### **Base de Datos**
+
 ```bash
 # Acceder a la base de datos
 docker-compose exec db psql -U odoo -d odoo
@@ -145,6 +156,7 @@ docker-compose exec -T db psql -U odoo -d odoo < backup.sql
 ```
 
 ### **Desarrollo**
+
 ```bash
 # Acceder al contenedor de Odoo
 docker-compose exec odoo bash
@@ -180,6 +192,7 @@ addons/
 ```
 
 ### **Convenciones de Nomenclatura**
+
 - Prefijo `cliente_` para módulos específicos del cliente
 - Nombres descriptivos que indiquen la funcionalidad
 - Separación por funcionalidad (sales, inventory, integrations, etc.)
@@ -189,12 +202,14 @@ addons/
 ### **Problemas Comunes**
 
 1. **Puerto ya en uso**
+
    ```bash
    # Cambiar puerto en .env
    ODOO_PORT=8070
    ```
 
 2. **Error de permisos**
+
    ```bash
    # Verificar permisos de carpetas
    ls -la addons/
@@ -202,6 +217,7 @@ addons/
    ```
 
 3. **Base de datos no conecta**
+
    ```bash
    # Verificar estado de servicios
    docker-compose ps
@@ -211,6 +227,7 @@ addons/
    ```
 
 ### **Limpiar Todo**
+
 ```bash
 # Detener y eliminar contenedores
 docker-compose down -v
@@ -225,6 +242,7 @@ docker volume prune
 ## 📞 Soporte
 
 Para problemas o preguntas:
+
 - Revisar logs: `docker-compose logs -f`
 - Verificar configuración: `docker-compose config`
 - Consultar documentación de Odoo
