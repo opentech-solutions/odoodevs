@@ -109,7 +109,7 @@ Proyectos organizados por industria o vertical de negocio:
 
 ```bash
 # Clonar o inicializar el workspace
-git clone <repository-url> [odoo-workspace]
+git clone https://github.com/opentech-solutions/odoodevs.git [odoo-workspace]
 cd [odoo-workspace]
 
 # Verificar estructura
@@ -118,6 +118,9 @@ ls -la
 # Configurar PATH para comandos globales (opcional)
 ./bin/odoodevs-path.sh set
 source ~/.bashrc  # o reiniciar terminal
+
+# Para remover la configuración del PATH (si es necesario)
+# ./bin/odoodevs-path.sh unset
 ```
 
 ### 2. Crear un Nuevo Proyecto
@@ -161,6 +164,27 @@ docker-compose up -d
 | `backup-project.sh` | Backup automático de proyecto |
 | `deploy-project.sh` | Deploy a diferentes entornos |
 | `update-dependencies.sh` | Actualizar dependencias Python |
+
+### 🔧 Gestión del PATH
+
+El script `odoodevs-path.sh` permite gestionar la configuración del PATH:
+
+```bash
+# Configurar PATH de forma persistente
+./bin/odoodevs-path.sh set
+
+# Configurar PATH solo para la sesión actual
+./bin/odoodevs-path.sh session
+
+# Remover configuración persistente del PATH
+./bin/odoodevs-path.sh unset
+
+# Ver estado actual del PATH
+./bin/odoodevs-path.sh status
+
+# Ver ayuda detallada
+./bin/odoodevs-path.sh help
+```
 
 ## 📋 Convenciones de Nomenclatura
 
