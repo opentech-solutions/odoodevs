@@ -7,6 +7,13 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [2.0.0] - 2024-09-11
 
+### 📄 Licencia
+- **Liberación bajo GPLv3**: Proyecto liberado bajo GNU General Public License v3.0
+- **Archivo LICENSE**: Creado `docs/LICENSE` con texto completo de GPLv3
+- **Documentación de licencia**: Actualizado README con información de GPLv3
+- **Resumen de términos**: Agregado resumen de libertades GPLv3 en README
+- **Cumplimiento legal**: Establecido copyleft para mantener código abierto
+
 ### 🚀 Agregado
 - **Sistema de Scaffolding Automático**: Implementación completa de scaffolding para proyectos Odoo
 - **Script `create-project.sh`**: Creación automática de proyectos cliente y vertical
@@ -23,6 +30,9 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **README.md**: Actualización completa con nueva estructura y funcionalidades
 - **Estructura del Workspace**: Agregada carpeta `scaffolding/` con plantillas
 - **Documentación**: Mejoras en guías de inicio rápido y uso de scripts
+- **Opciones de clonación**: Agregadas múltiples opciones (HTTPS, SSH, GitHub CLI)
+- **Información de proyecto público**: Clarificación de naturaleza pública del proyecto
+- **Sección de contribuciones**: Guía completa para contribuir al proyecto
 - **Versión**: Actualizada de 1.0.0 a 2.0.0
 
 ### 🛡️ Seguridad
@@ -80,10 +90,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **Odoo**: Versión 17.0 (configurable)
 
 ### 📚 Documentación
-- README.md completamente actualizado
-- Ayuda integrada en todos los scripts (`--help`)
-- Documentación de plantilla de proyecto
-- Guías de inicio rápido actualizadas
+- **README.md**: Completamente actualizado con sistema de scaffolding
+- **CHANGELOG.md**: Creado siguiendo estándar Keep a Changelog
+- **Ayuda integrada**: Todos los scripts incluyen `--help` detallado
+- **Documentación de plantilla**: README específico para proyectos generados
+- **Guías de inicio rápido**: Ejemplos prácticos paso a paso
+- **Múltiples opciones de clonación**: HTTPS, SSH y GitHub CLI documentadas
+- **Información de proyecto público**: Clarificación de naturaleza open source
+- **Sección de contribuciones**: Guía completa para contribuir al proyecto
+- **Licencia GPLv3**: Documentación completa de términos y libertades
 
 ---
 
