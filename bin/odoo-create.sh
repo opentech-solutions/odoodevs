@@ -154,7 +154,7 @@ EOF
 # Validar parámetros de entrada
 validate_parameters() {
     if [ $# -ne 2 ]; then
-        error "Uso: $0 <nombre-cliente> <tipo-proyecto>"
+        error "Uso: odoo-create.sh <nombre-cliente> <tipo-proyecto>"
         return 1
     fi
     
