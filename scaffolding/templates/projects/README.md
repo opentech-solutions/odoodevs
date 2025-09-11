@@ -88,5 +88,5 @@ Este template está diseñado específicamente para proyectos de clientes y incl
 
 ---
 
-**Última actualización**: $(date +"%Y-%m-%d")
+**Última actualización**: 2025-01-11
 **Versión**: 1.0.0
