@@ -15,6 +15,8 @@ ws-odoo/
 │   └── odoodevs-path.sh    # Configuración del PATH
 ├── clientes/               # Proyectos específicos por cliente
 ├── docs/                   # Documentación compartida
+│   ├── LICENSE             # Licencia GPLv3
+│   └── CHANGELOG.md        # Historial de cambios
 ├── modulos/                # Módulos reutilizables
 ├── scaffolding/            # Plantillas para scaffolding
 │   └── templates/
@@ -62,6 +64,8 @@ Proyectos específicos desarrollados para clientes particulares:
 
 Documentación compartida del workspace:
 
+- **`LICENSE`** - Licencia GPLv3 completa
+- **`CHANGELOG.md`** - Historial completo de cambios del proyecto
 - Guías de desarrollo
 - Mejores prácticas
 - Documentación técnica
@@ -250,6 +254,8 @@ Para problemas o preguntas:
 Este proyecto es de código abierto y está disponible públicamente bajo la **GNU General Public License v3.0 (GPL-3.0)**.
 
 Para información específica sobre la licencia, consulta el archivo `docs/LICENSE` en el repositorio.
+
+Para el historial completo de cambios, consulta el archivo `docs/CHANGELOG.md`.
 
 ### Resumen de la Licencia GPLv3
 
