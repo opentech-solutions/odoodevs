@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # ============================================
-# SCRIPT DE CONFIGURACIÓN DEL PATH
+# SCRIPT DE CONFIGURACIÓN DEL PATH ODOODEVS
 # ============================================
 # Este script configura la carpeta bin del workspace Odoo en el PATH
 # para permitir ejecutar comandos desde cualquier directorio.
 #
-# Uso: ./bin/configure-path.sh <comando> [opciones]
+# Uso: ./bin/odoodevs-path.sh <comando> [opciones]
 # Comandos:
 #   set         Configurar PATH de forma persistente
 #   unset       Remover configuración persistente del PATH
@@ -78,10 +78,10 @@ REQUISITOS:
     - Debe existir la carpeta 'verticales'
 
 EJEMPLOS:
-    $0 set                    # Configurar PATH persistente
-    $0 unset                  # Remover configuración persistente
-    $0 session                # Configurar PATH para sesión actual
-    $0 status                 # Ver estado del PATH
+    ./bin/odoodevs-path.sh set                    # Configurar PATH persistente
+    ./bin/odoodevs-path.sh unset                  # Remover configuración persistente
+    ./bin/odoodevs-path.sh session                # Configurar PATH para sesión actual
+    ./bin/odoodevs-path.sh status                 # Ver estado del PATH
 
 CONFIGURACIÓN PERSISTENTE:
     El comando 'set' modifica los siguientes archivos según el shell:
@@ -276,7 +276,7 @@ set_session_path() {
     log "Directorio agregado: $BIN_PATH"
     
     info "Los cambios solo afectan esta sesión de terminal"
-    info "Para hacer los cambios persistentes, usa: $0 set"
+    info "Para hacer los cambios persistentes, usa: ./bin/odoodevs-path.sh set"
     
     return 0
 }
@@ -335,9 +335,9 @@ show_path_status() {
     
     # Mostrar comandos útiles
     info "Comandos útiles:"
-    echo "  Configurar persistente: $0 set"
-    echo "  Remover persistente:    $0 unset"
-    echo "  Configurar sesión:     $0 session"
+    echo "  Configurar persistente: ./bin/odoodevs-path.sh set"
+    echo "  Remover persistente:    ./bin/odoodevs-path.sh unset"
+    echo "  Configurar sesión:     ./bin/odoodevs-path.sh session"
     echo "  Recargar configuración: source $SHELL_CONFIG_FILE"
 }
 
