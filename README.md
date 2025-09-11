@@ -10,7 +10,7 @@ Un workspace organizado para el desarrollo de múltiples proyectos Odoo con sist
 ws-odoo/
 ├── bin/                    # Scripts compartidos y herramientas
 │   ├── .odoodevs          # Marcador de workspace (solo lectura)
-│   ├── create-project.sh   # Scaffolding de proyectos Odoo
+│   ├── odoo-create.sh       # Scaffolding de proyectos Odoo
 │   ├── build-image.sh      # Construcción de imágenes Docker/Podman
 │   └── odoodevs-path.sh    # Configuración del PATH
 ├── clientes/               # Proyectos específicos por cliente
@@ -45,7 +45,7 @@ Este workspace está diseñado para:
 Contiene scripts y herramientas que se aplican a todos los proyectos:
 
 - **`.odoodevs`** - Marcador de workspace (archivo de solo lectura)
-- **`create-project.sh`** - Scaffolding automático de proyectos Odoo
+- **`odoo-create.sh`** - Scaffolding automático de proyectos Odoo
 - **`build-image.sh`** - Construcción de imágenes Docker/Podman personalizadas
 - **`odoodevs-path.sh`** - Configuración del PATH para comandos globales
 - Scripts de backup y deploy
@@ -150,10 +150,10 @@ source ~/.bashrc  # o reiniciar terminal
 
 ```bash
 # Crear proyecto de cliente
-./bin/create-project.sh mi-cliente cliente
+./bin/odoo-create.sh mi-cliente cliente
 
 # Crear proyecto vertical
-./bin/create-project.sh industria-textil vertical
+./bin/odoo-create.sh industria-textil vertical
 ```
 
 ### 3. Construir Imagen Personalizada
@@ -180,7 +180,7 @@ docker-compose up -d
 
 | Script | Descripción |
 |--------|-------------|
-| `create-project.sh` | Scaffolding automático de proyectos Odoo |
+| `odoo-create.sh` | Scaffolding automático de proyectos Odoo |
 | `build-image.sh` | Construcción de imágenes Docker/Podman personalizadas |
 | `odoodevs-path.sh` | Configuración del PATH para comandos globales |
 | `setup-secrets.sh` | Configurar variables de entorno |

@@ -18,7 +18,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ### 🚀 Agregado
 
 - **Sistema de Scaffolding Automático**: Implementación completa de scaffolding para proyectos Odoo
-- **Script `create-project.sh`**: Creación automática de proyectos cliente y vertical
+- **Script `odoo-create.sh`**: Creación automática de proyectos cliente y vertical
 - **Script `build-image.sh`**: Construcción de imágenes Docker/Podman personalizadas
 - **Script `odoodevs-path.sh`**: Configuración del PATH para comandos globales
 - **Archivo `.odoodevs`**: Marcador de workspace con permisos de seguridad
@@ -49,7 +49,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 #### Scripts Implementados
 
-- **`bin/create-project.sh`** (343 líneas)
+- **`bin/odoo-create.sh`** (343 líneas)
   - Validación de parámetros y estructura del workspace
   - Copia de plantilla con sustitución de variables
   - Generación de archivo .env personalizado
