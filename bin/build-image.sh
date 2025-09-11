@@ -1,8 +1,13 @@
 #!/bin/bash
 # Script para construir imagen de Odoo personalizada
 # Detecta automáticamente si usar Docker o Podman
+# Compatible con Linux y macOS
 
 set -e
+
+# Obtener directorio del script
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 # Colores para output
 RED='\033[0;31m'
@@ -26,6 +31,53 @@ success() {
 
 warning() {
     echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+# Validar estructura del proyecto
+validate_project_structure() {
+    log "Validando estructura del proyecto..."
+    
+    # Verificar que estamos en la raíz del proyecto
+    if [ ! -f "$PROJECT_ROOT/docker-compose.yml" ]; then
+        error "No se encontró docker-compose.yml en la raíz del proyecto"
+        error "Asegúrate de ejecutar este script desde la raíz del proyecto Odoo"
+        error "Directorio actual: $PROJECT_ROOT"
+        return 1
+    fi
+    
+    # Verificar carpeta build
+    if [ ! -d "$PROJECT_ROOT/build" ]; then
+        error "No se encontró la carpeta 'build/' en el proyecto"
+        error "La carpeta build/ debe contener el Dockerfile y requirements.txt"
+        return 1
+    fi
+    
+    # Verificar Dockerfile
+    if [ ! -f "$PROJECT_ROOT/build/Dockerfile" ]; then
+        error "No se encontró Dockerfile en la carpeta build/"
+        error "El Dockerfile debe estar en: $PROJECT_ROOT/build/Dockerfile"
+        return 1
+    fi
+    
+    # Verificar que el Dockerfile tenga FROM odoo:
+    if ! grep -q "^FROM odoo:" "$PROJECT_ROOT/build/Dockerfile"; then
+        error "El Dockerfile debe comenzar con 'FROM odoo:' seguido de la versión"
+        error "Ejemplo: FROM odoo:17.0"
+        return 1
+    fi
+    
+    # Verificar requirements.txt
+    if [ ! -f "$PROJECT_ROOT/build/requirements.txt" ]; then
+        warning "No se encontró requirements.txt en la carpeta build/"
+        warning "Creando requirements.txt vacío..."
+        touch "$PROJECT_ROOT/build/requirements.txt"
+    fi
+    
+    success "Estructura del proyecto validada correctamente"
+    log "Directorio del proyecto: $PROJECT_ROOT"
+    log "Carpeta build: $PROJECT_ROOT/build"
+    
+    return 0
 }
 
 # Detectar gestor de contenedores disponible
@@ -78,6 +130,13 @@ detect_container_engine() {
 # Función principal
 main() {
     log "Iniciando construcción de imagen de Odoo..."
+    log "Directorio del script: $SCRIPT_DIR"
+    log "Directorio del proyecto: $PROJECT_ROOT"
+    
+    # Validar estructura del proyecto
+    if ! validate_project_structure; then
+        exit 1
+    fi
     
     # Detectar gestor de contenedores
     if ! detect_container_engine; then
@@ -89,6 +148,7 @@ main() {
     
     # TODO: Implementar construcción de imagen
     log "Construcción de imagen pendiente de implementar..."
+    log "Comando que se ejecutará: $CONTAINER_ENGINE build ./build -t odoo:[cliente]-[versión]"
 }
 
 # Ejecutar función principal
