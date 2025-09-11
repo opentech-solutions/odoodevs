@@ -40,6 +40,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE_ROOT="$(dirname "$SCRIPT_DIR")"
 TEMPLATE_DIR="$WORKSPACE_ROOT/scaffolding/templates/projects"
 VERSION_FILE="$SCRIPT_DIR/.version"
+CREATED_FILE="$SCRIPT_DIR/.created"
+UPDATED_FILE="$SCRIPT_DIR/.updated"
 CLIENT_NAME=""
 PROJECT_TYPE=""
 PROJECT_DIR=""
@@ -74,17 +76,29 @@ show_version() {
     local version="1.0.0"
     local title="ODOO PROJECT CREATOR"
     local author="Mauro Rosero P. <mauro@rosero.one>"
-    local last_update="2025-01-11 16:50"
+    local created_date="2025-01-11 16:50"
+    local updated_date="2025-01-11 16:50"
     
     # Leer versión del archivo si existe
     if [ -f "$VERSION_FILE" ]; then
         version=$(cat "$VERSION_FILE" | tr -d '\n\r')
     fi
     
+    # Leer fecha de creación del archivo si existe
+    if [ -f "$CREATED_FILE" ]; then
+        created_date=$(cat "$CREATED_FILE" | tr -d '\n\r')
+    fi
+    
+    # Leer fecha de actualización del archivo si existe
+    if [ -f "$UPDATED_FILE" ]; then
+        updated_date=$(cat "$UPDATED_FILE" | tr -d '\n\r')
+    fi
+    
     echo -e "${BOLD}${CYAN}$title${NC}"
     echo -e "${DIM}Versión:${NC} ${BOLD}$version${NC}"
     echo -e "${DIM}Autor:${NC} $author"
-    echo -e "${DIM}Última actualización:${NC} $last_update"
+    echo -e "${DIM}Creado:${NC} $created_date"
+    echo -e "${DIM}Última actualización:${NC} $updated_date"
     echo ""
 }
 
