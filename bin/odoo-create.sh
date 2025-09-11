@@ -119,12 +119,8 @@ EOF
 
 # Validar parámetros de entrada
 validate_parameters() {
-    log "Validando parámetros de entrada..."
-    
     if [ $# -ne 2 ]; then
-        error "Número incorrecto de parámetros"
         error "Uso: $0 <nombre-cliente> <tipo-proyecto>"
-        error "Ejecuta '$0 --help' para más información"
         return 1
     fi
     
@@ -133,64 +129,44 @@ validate_parameters() {
     
     # Validar nombre del cliente
     if [[ ! "$CLIENT_NAME" =~ ^[a-zA-Z0-9-]+$ ]]; then
-        error "El nombre del cliente solo puede contener letras, números y guiones"
-        error "Nombre proporcionado: '$CLIENT_NAME'"
+        error "Nombre del cliente inválido (solo letras, números y guiones)"
         return 1
     fi
     
     # Validar tipo de proyecto
     if [[ "$PROJECT_TYPE" != "cliente" && "$PROJECT_TYPE" != "vertical" ]]; then
-        error "El tipo de proyecto debe ser 'cliente' o 'vertical'"
-        error "Tipo proporcionado: '$PROJECT_TYPE'"
+        error "Tipo de proyecto debe ser 'cliente' o 'vertical'"
         return 1
     fi
-    
-    success "Parámetros validados correctamente"
-    log "Cliente: $CLIENT_NAME"
-    log "Tipo: $PROJECT_TYPE"
     
     return 0
 }
 
 # Verificar que existe la plantilla
 validate_template() {
-    log "Validando plantilla de scaffolding..."
-    
     if [ ! -d "$TEMPLATE_DIR" ]; then
-        error "No se encontró la plantilla de scaffolding"
-        error "Directorio esperado: $TEMPLATE_DIR"
-        error "Asegúrate de que la plantilla esté disponible"
+        error "Plantilla de scaffolding no encontrada"
         return 1
     fi
     
-    # Verificar archivos esenciales de la plantilla
+    # Verificar archivos esenciales
     local required_files=(
-        "docker-compose.yml"
-        "env.example"
-        "README.md"
-        ".gitignore"
-        "build/Dockerfile"
-        "build/requirements.txt"
-        "etc/odoo.conf"
-        "config/db/init.sql"
+        "docker-compose.yml" "env.example" "README.md" ".gitignore"
+        "build/Dockerfile" "build/requirements.txt" "etc/odoo.conf" "config/db/init.sql"
     )
     
     for file in "${required_files[@]}"; do
         if [ ! -f "$TEMPLATE_DIR/$file" ]; then
             error "Archivo de plantilla faltante: $file"
-            error "Directorio de plantilla: $TEMPLATE_DIR"
             return 1
         fi
     done
     
-    success "Plantilla de scaffolding validada correctamente"
     return 0
 }
 
 # Verificar que no existe el proyecto
 check_project_exists() {
-    log "Verificando que no exista el proyecto..."
-    
     # Determinar directorio de destino según el tipo
     if [ "$PROJECT_TYPE" = "cliente" ]; then
         PROJECT_DIR="$WORKSPACE_ROOT/clientes/$CLIENT_NAME"
@@ -199,51 +175,37 @@ check_project_exists() {
     fi
     
     if [ -d "$PROJECT_DIR" ]; then
-        error "Ya existe un proyecto con el nombre '$CLIENT_NAME'"
-        error "Directorio existente: $PROJECT_DIR"
-        error "Elige un nombre diferente o elimina el proyecto existente"
+        error "Proyecto '$CLIENT_NAME' ya existe"
         return 1
     fi
-    
-    success "No existe conflicto con proyectos existentes"
-    log "Directorio de destino: $PROJECT_DIR"
     
     return 0
 }
 
 # Crear directorio del proyecto
 create_project_directory() {
-    log "Creando directorio del proyecto..."
-    
     # Crear directorio padre si no existe
     local parent_dir=$(dirname "$PROJECT_DIR")
     if [ ! -d "$parent_dir" ]; then
-        log "Creando directorio padre: $parent_dir"
         mkdir -p "$parent_dir"
     fi
     
     # Crear directorio del proyecto
     mkdir -p "$PROJECT_DIR"
     
-    success "Directorio del proyecto creado: $PROJECT_DIR"
     return 0
 }
 
 # Copiar plantilla al proyecto
 copy_template() {
-    log "Copiando plantilla al proyecto..."
-    
     # Copiar todos los archivos de la plantilla
     cp -r "$TEMPLATE_DIR"/* "$PROJECT_DIR/"
     
-    success "Plantilla copiada al proyecto"
     return 0
 }
 
 # Generar archivo .env personalizado
 generate_env_file() {
-    log "Generando archivo .env personalizado..."
-    
     local env_file="$PROJECT_DIR/.env"
     local env_example="$PROJECT_DIR/env.example"
     
@@ -267,26 +229,17 @@ generate_env_file() {
             sed -i.bak "s/change_me/$db_password/g" "$env_file"
             sed -i.bak "s/REDIS_PASSWORD=change_me/REDIS_PASSWORD=$redis_password/g" "$env_file"
             sed -i.bak "s/PGADMIN_PASSWORD=change_me/PGADMIN_PASSWORD=$pgadmin_password/g" "$env_file"
-        else
-            warning "openssl no disponible, usando contraseñas por defecto"
-            warning "Cambia las contraseñas en el archivo .env antes de usar en producción"
         fi
         
         # Limpiar archivos de respaldo
         rm -f "$env_file.bak"
-    else
-        warning "sed no disponible, archivo .env creado con valores por defecto"
-        warning "Edita manualmente el archivo .env para personalizar las variables"
     fi
     
-    success "Archivo .env generado: $env_file"
     return 0
 }
 
 # Inicializar repositorio Git
 init_git_repository() {
-    log "Inicializando repositorio Git..."
-    
     cd "$PROJECT_DIR"
     
     # Inicializar repositorio
@@ -308,9 +261,6 @@ init_git_repository() {
 - Documentación del proyecto
 
 Generado con scaffolding de Odoo"
-    
-    success "Repositorio Git inicializado"
-    log "Directorio del repositorio: $PROJECT_DIR"
     
     # Volver al directorio original
     cd "$WORKSPACE_ROOT"
@@ -353,50 +303,14 @@ show_project_summary() {
 
 # Validar directorio de ejecución
 validate_execution_directory() {
-    log "Validando directorio de ejecución..."
-    
-    # Obtener directorio actual de ejecución
     local current_dir="$(pwd)"
     
-    # Verificar que existe la carpeta bin
-    if [ ! -d "$current_dir/bin" ]; then
-        error "No se encontró la carpeta 'bin' en el directorio actual"
-        error "Directorio actual: $current_dir"
-        error "Este script debe ejecutarse desde la raíz del workspace Odoo"
-        error "Asegúrate de estar en el directorio que contiene la carpeta 'bin'"
+    # Verificar estructura básica
+    if [ ! -d "$current_dir/bin" ] || [ ! -f "$current_dir/bin/.odoodevs" ] || 
+       [ ! -d "$current_dir/clientes" ] || [ ! -d "$current_dir/verticales" ]; then
+        error "Ejecuta este script desde la raíz del workspace Odoo"
         return 1
     fi
-    
-    # Verificar que existe el archivo .odoodevs en bin
-    if [ ! -f "$current_dir/bin/.odoodevs" ]; then
-        error "No se encontró el archivo '.odoodevs' en la carpeta bin"
-        error "Archivo esperado: $current_dir/bin/.odoodevs"
-        error "Este archivo es requerido para validar el workspace Odoo"
-        return 1
-    fi
-    
-    # Verificar que existe la carpeta clientes
-    if [ ! -d "$current_dir/clientes" ]; then
-        error "No se encontró la carpeta 'clientes' en el directorio actual"
-        error "Carpeta esperada: $current_dir/clientes"
-        error "Esta carpeta es requerida para proyectos de tipo 'cliente'"
-        return 1
-    fi
-    
-    # Verificar que existe la carpeta verticales
-    if [ ! -d "$current_dir/verticales" ]; then
-        error "No se encontró la carpeta 'verticales' en el directorio actual"
-        error "Carpeta esperada: $current_dir/verticales"
-        error "Esta carpeta es requerida para proyectos de tipo 'vertical'"
-        return 1
-    fi
-    
-    success "Directorio de ejecución validado correctamente"
-    log "Directorio actual: $current_dir"
-    log "Carpeta bin encontrada: $current_dir/bin"
-    log "Archivo .odoodevs encontrado: $current_dir/bin/.odoodevs"
-    log "Carpeta clientes encontrada: $current_dir/clientes"
-    log "Carpeta verticales encontrada: $current_dir/verticales"
     
     return 0
 }
@@ -415,9 +329,6 @@ main() {
     echo ""
     
     step "Iniciando creación de proyecto Odoo"
-    info "Directorio del script: $SCRIPT_DIR"
-    info "Directorio del workspace: $WORKSPACE_ROOT"
-    info "Directorio de plantilla: $TEMPLATE_DIR"
     
     # Validar directorio de ejecución primero
     validate_execution_directory || exit 1
@@ -431,7 +342,6 @@ main() {
     generate_env_file || exit 1
     init_git_repository || exit 1
     
-    success "Proyecto '$CLIENT_NAME' creado exitosamente"
     show_project_summary
 }
 
