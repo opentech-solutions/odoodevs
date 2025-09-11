@@ -247,7 +247,17 @@ Para problemas o preguntas:
 
 ## 📄 Licencia
 
-Este proyecto es de código abierto y está disponible públicamente. Para información específica sobre la licencia, consulta el archivo `LICENSE` en el repositorio.
+Este proyecto es de código abierto y está disponible públicamente bajo la **GNU General Public License v3.0 (GPL-3.0)**.
+
+Para información específica sobre la licencia, consulta el archivo `docs/LICENSE` en el repositorio.
+
+### Resumen de la Licencia GPLv3
+
+- ✅ **Uso libre**: Puedes usar el software para cualquier propósito
+- ✅ **Modificación**: Puedes modificar el código fuente
+- ✅ **Distribución**: Puedes distribuir copias del software
+- ✅ **Código abierto**: Debes mantener el código fuente disponible
+- ✅ **Copyleft**: Las modificaciones deben usar la misma licencia GPLv3
 
 ## 🤝 Contribuciones
 
