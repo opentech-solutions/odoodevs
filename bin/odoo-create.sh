@@ -73,7 +73,7 @@ step() {
 show_version() {
     local version="1.0.0"
     local title="ODOO PROJECT CREATOR"
-    local author="OpenTech Solutions"
+    local author="Mauro Rosero P. <mauro@rosero.one>"
     local last_update="2025-01-11 16:50"
     
     # Leer versión del archivo si existe
