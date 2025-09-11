@@ -2,10 +2,12 @@
 
 Un workspace organizado para el desarrollo de múltiples proyectos Odoo con sistema de scaffolding automatizado, diseñado para gestionar proyectos por cliente, verticales de negocio y módulos reutilizables usando contenedores.
 
+> **📢 Proyecto Público**: Este es un proyecto de código abierto disponible públicamente en GitHub bajo la organización [opentech-solutions](https://github.com/opentech-solutions/odoodevs).
+
 ## 📁 Estructura del Workspace
 
 ```text
-odoo-workspace/
+ws-odoo/
 ├── bin/                    # Scripts compartidos y herramientas
 │   ├── .odoodevs          # Marcador de workspace (solo lectura)
 │   ├── create-project.sh   # Scaffolding de proyectos Odoo
@@ -245,7 +247,23 @@ Para problemas o preguntas:
 
 ## 📄 Licencia
 
-[Especificar licencia del proyecto]
+Este proyecto es de código abierto y está disponible públicamente. Para información específica sobre la licencia, consulta el archivo `LICENSE` en el repositorio.
+
+## 🤝 Contribuciones
+
+Como proyecto público, las contribuciones son bienvenidas:
+
+- **Issues**: Reporta bugs o solicita nuevas funcionalidades
+- **Pull Requests**: Contribuye con mejoras al código
+- **Documentación**: Ayuda a mejorar la documentación
+- **Feedback**: Comparte tu experiencia usando el workspace
+
+Para contribuir:
+1. Fork del repositorio
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -m 'feat: agregar nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
 
 ---
 
