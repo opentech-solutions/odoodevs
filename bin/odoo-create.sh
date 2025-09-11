@@ -105,7 +105,7 @@ show_version() {
 # Mostrar ayuda
 show_help() {
     cat << EOF
-USO: odoo-create.sh <nombre-cliente> <tipo-proyecto>
+USO: odoo-create.sh <nombre-cliente> <cliente|vertical>
 
 DESCRIPCIÓN:
     Crea un nuevo proyecto Odoo usando la plantilla de scaffolding.
@@ -154,7 +154,7 @@ EOF
 # Validar parámetros de entrada
 validate_parameters() {
     if [ $# -ne 2 ]; then
-        error "Uso: odoo-create.sh <nombre-cliente> <tipo-proyecto>"
+        error "Uso: odoo-create.sh <nombre-cliente> <cliente|vertical>"
         return 1
     fi
     
