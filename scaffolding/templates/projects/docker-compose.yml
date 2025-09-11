@@ -47,7 +47,7 @@ services:
   odoo:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: build/Dockerfile
     container_name: ${PROJECT_NAME}-odoo
     environment:
       - HOST=${DB_HOST:-db}
