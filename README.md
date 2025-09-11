@@ -10,6 +10,7 @@ odoo-workspace/
 ├── clientes/               # Proyectos específicos por cliente
 ├── docs/                   # Documentación compartida
 ├── modulos/                # Módulos reutilizables
+├── sops/                   # Archivos de secretos gestionados por SOPS
 ├── verticales/             # Proyectos por vertical de negocio
 └── .gitignore              # Configuración de Git
 ```
@@ -60,6 +61,16 @@ Módulos que pueden ser utilizados en múltiples proyectos:
 - Módulos por industria
 - Módulos de integración
 - Módulos de utilidades
+
+### `sops/` - Gestión de Secretos
+
+Archivos de secretos del entorno gestionados por [Secrets OPerationS (SOPS)](https://getsops.io/):
+
+- Archivos de configuración encriptados
+- Variables de entorno sensibles
+- Claves de API y certificados
+- Credenciales de bases de datos
+- Configuraciones por entorno (dev/staging/prod)
 
 ### `verticales/` - Proyectos por Vertical
 

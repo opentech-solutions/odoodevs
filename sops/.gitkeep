@@ -1,0 +1,3 @@
+# Esta carpeta contiene archivos de SOPS (Secrets OPerationS)
+# El contenido de esta carpeta se ignora en .gitignore
+# Solo se trackean los archivos de configuración y estructura

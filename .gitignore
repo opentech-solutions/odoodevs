@@ -17,6 +17,9 @@ clientes/*
 modulos/*
 !modulos/.gitkeep
 
+sops/*
+!sops/.gitkeep
+
 # ============================================
 # ARCHIVOS TEMPORALES Y LOGS
 # ============================================
