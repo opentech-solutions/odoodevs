@@ -39,6 +39,7 @@ FILE='📄'
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE_ROOT="$(dirname "$SCRIPT_DIR")"
 TEMPLATE_DIR="$WORKSPACE_ROOT/scaffolding/templates/projects"
+VERSION_FILE="$SCRIPT_DIR/.version"
 CLIENT_NAME=""
 PROJECT_TYPE=""
 PROJECT_DIR=""
@@ -66,6 +67,25 @@ info() {
 
 step() {
     echo -e "${PURPLE}${ROCKET}${NC} ${BOLD}$1${NC}"
+}
+
+# Mostrar información de versión
+show_version() {
+    local version="1.0.0"
+    local title="ODOO PROJECT CREATOR"
+    local author="OpenTech Solutions"
+    local last_update="2025-01-11 16:50"
+    
+    # Leer versión del archivo si existe
+    if [ -f "$VERSION_FILE" ]; then
+        version=$(cat "$VERSION_FILE" | tr -d '\n\r')
+    fi
+    
+    echo -e "${BOLD}${CYAN}$title${NC}"
+    echo -e "${DIM}Versión:${NC} ${BOLD}$version${NC}"
+    echo -e "${DIM}Autor:${NC} $author"
+    echo -e "${DIM}Última actualización:${NC} $last_update"
+    echo ""
 }
 
 # Mostrar ayuda
@@ -271,9 +291,7 @@ Generado con scaffolding de Odoo"
 # Mostrar resumen del proyecto creado
 show_project_summary() {
     echo ""
-    echo -e "${BOLD}${GREEN}╔══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BOLD}${GREEN}║                    ${CHECKMARK} PROYECTO CREADO EXITOSAMENTE ${CHECKMARK}                    ║${NC}"
-    echo -e "${BOLD}${GREEN}╚══════════════════════════════════════════════════════════════╝${NC}"
+    success "Proyecto creado exitosamente"
     echo ""
     
     echo -e "${BOLD}${CYAN}${FOLDER} Proyecto:${NC} ${BOLD}$CLIENT_NAME${NC} (${YELLOW}$PROJECT_TYPE${NC})"
@@ -323,11 +341,13 @@ main() {
         exit 0
     fi
     
-    echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BOLD}${CYAN}║                    ${ROCKET} ODOO PROJECT CREATOR ${ROCKET}                    ║${NC}"
-    echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════════════════════╝${NC}"
-    echo ""
+    # Verificar si se solicita versión
+    if [[ "${1:-}" == "--version" || "${1:-}" == "-v" ]]; then
+        show_version
+        exit 0
+    fi
     
+    show_version
     step "Iniciando creación de proyecto Odoo"
     
     # Validar directorio de ejecución primero
