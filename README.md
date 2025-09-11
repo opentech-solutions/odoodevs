@@ -132,10 +132,12 @@ ls -la
 ```
 
 **Nota sobre métodos de clonación:**
+
 - **HTTPS**: Funciona sin configuración adicional, ideal para usuarios nuevos
 - **SSH**: Requiere configuración de claves SSH, ideal para desarrolladores activos
 - **GitHub CLI**: Requiere instalación de `gh`, proporciona integración adicional con GitHub
 
+```bash
 # Configurar PATH para comandos globales (opcional)
 ./bin/odoodevs-path.sh set
 source ~/.bashrc  # o reiniciar terminal
@@ -275,6 +277,7 @@ Como proyecto público, las contribuciones son bienvenidas:
 - **Feedback**: Comparte tu experiencia usando el workspace
 
 Para contribuir:
+
 1. Fork del repositorio
 2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
 3. Commit tus cambios (`git commit -m 'feat: agregar nueva funcionalidad'`)
