@@ -127,6 +127,82 @@ detect_container_engine() {
     return 1
 }
 
+# Cargar variables de entorno desde .env
+load_environment_variables() {
+    log "Cargando variables de entorno..."
+    
+    # Verificar que existe el archivo .env
+    if [ ! -f "$PROJECT_ROOT/.env" ]; then
+        error "No se encontró el archivo .env en la raíz del proyecto"
+        error "El archivo .env debe estar en: $PROJECT_ROOT/.env"
+        error "Crea el archivo .env desde .env.example o env.example"
+        return 1
+    fi
+    
+    # Cargar variables del archivo .env
+    # Compatible con Linux y macOS
+    if command -v grep &> /dev/null; then
+        # Extraer variables específicas
+        PROJECT_NAME=$(grep "^PROJECT_NAME=" "$PROJECT_ROOT/.env" | cut -d'=' -f2 | tr -d '"' | tr -d "'")
+        ODOO_VERSION=$(grep "^ODOO_VERSION=" "$PROJECT_ROOT/.env" | cut -d'=' -f2 | tr -d '"' | tr -d "'")
+    else
+        error "El comando 'grep' no está disponible"
+        return 1
+    fi
+    
+    # Validar variables requeridas
+    if [ -z "$PROJECT_NAME" ]; then
+        error "PROJECT_NAME no está definido en el archivo .env"
+        error "Agrega PROJECT_NAME=nombre-del-cliente al archivo .env"
+        return 1
+    fi
+    
+    if [ -z "$ODOO_VERSION" ]; then
+        warning "ODOO_VERSION no está definido en el archivo .env"
+        warning "Usando versión por defecto: 17.0"
+        ODOO_VERSION="17.0"
+    fi
+    
+    # Limpiar nombre del proyecto (solo caracteres alfanuméricos y guiones)
+    PROJECT_NAME=$(echo "$PROJECT_NAME" | sed 's/[^a-zA-Z0-9-]//g' | tr '[:upper:]' '[:lower:]')
+    
+    success "Variables de entorno cargadas:"
+    log "  PROJECT_NAME: $PROJECT_NAME"
+    log "  ODOO_VERSION: $ODOO_VERSION"
+    
+    return 0
+}
+
+# Construir imagen de Odoo
+build_image() {
+    log "Construyendo imagen de Odoo..."
+    
+    # Definir nombre de la imagen
+    IMAGE_NAME="odoo:${PROJECT_NAME}-${ODOO_VERSION}"
+    
+    log "Nombre de la imagen: $IMAGE_NAME"
+    log "Directorio de construcción: $PROJECT_ROOT/build"
+    
+    # Ejecutar comando de construcción
+    log "Ejecutando: $CONTAINER_ENGINE build $PROJECT_ROOT/build -t $IMAGE_NAME"
+    
+    if $CONTAINER_ENGINE build "$PROJECT_ROOT/build" -t "$IMAGE_NAME"; then
+        success "Imagen construida exitosamente: $IMAGE_NAME"
+        
+        # Mostrar información de la imagen
+        log "Información de la imagen:"
+        $CONTAINER_ENGINE images "$IMAGE_NAME" --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}\t{{.CreatedAt}}"
+        
+        log "Para usar esta imagen, actualiza docker-compose.yml:"
+        log "  image: $IMAGE_NAME"
+        
+    else
+        error "Error al construir la imagen"
+        error "Verifica que el Dockerfile sea válido y que el gestor de contenedores esté funcionando"
+        return 1
+    fi
+}
+
 # Función principal
 main() {
     log "Iniciando construcción de imagen de Odoo..."
@@ -146,9 +222,11 @@ main() {
     success "Gestor de contenedores detectado: $CONTAINER_ENGINE"
     log "Versión: $ENGINE_VERSION"
     
-    # TODO: Implementar construcción de imagen
-    log "Construcción de imagen pendiente de implementar..."
-    log "Comando que se ejecutará: $CONTAINER_ENGINE build ./build -t odoo:[cliente]-[versión]"
+    # Cargar variables de entorno
+    load_environment_variables
+    
+    # Construir imagen
+    build_image
 }
 
 # Ejecutar función principal
