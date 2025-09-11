@@ -112,7 +112,7 @@ DESCRIPCIÓN:
 
 PARÁMETROS:
     nombre-cliente    Nombre del cliente (solo letras, números y guiones)
-    tipo-proyecto     Tipo de proyecto: 'cliente' o 'vertical'
+    tipo-proyecto     Tipo de proyecto: cliente|vertical
 
 EJEMPLOS:
     odoo-create.sh mi-cliente cliente
@@ -169,7 +169,7 @@ validate_parameters() {
     
     # Validar tipo de proyecto
     if [[ "$PROJECT_TYPE" != "cliente" && "$PROJECT_TYPE" != "vertical" ]]; then
-        error "Tipo de proyecto debe ser 'cliente' o 'vertical'"
+        error "Tipo de proyecto debe ser: cliente|vertical"
         return 1
     fi
     
