@@ -1,0 +1,155 @@
+# ============================================
+# ODOO WORKSPACE .GITIGNORE
+# ============================================
+# Este archivo ignora el contenido de las carpetas de proyectos
+# pero mantiene el tracking de bin/ y docs/
+
+# ============================================
+# CARPETAS DE PROYECTOS - IGNORAR CONTENIDO
+# ============================================
+# Ignorar todo el contenido de estas carpetas
+verticales/*
+!verticales/.gitkeep
+
+clientes/*
+!clientes/.gitkeep
+
+modulos/*
+!modulos/.gitkeep
+
+# ============================================
+# ARCHIVOS TEMPORALES Y LOGS
+# ============================================
+# Logs de Odoo
+*.log
+logs/
+log/
+
+# Archivos temporales
+*.tmp
+*.temp
+*~
+
+# Archivos de backup
+*.bak
+*.backup
+backups/
+
+# ============================================
+# ARCHIVOS DE CONFIGURACIÓN SENSIBLES
+# ============================================
+# Variables de entorno
+.env
+.env.local
+.env.production
+.env.staging
+
+# Archivos de configuración con secretos
+config/secrets/
+secrets/
+*.key
+*.pem
+*.crt
+
+# ============================================
+# ARCHIVOS DE DESARROLLO
+# ============================================
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ============================================
+# ARCHIVOS DE IDE Y EDITORES
+# ============================================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+
+# ============================================
+# ARCHIVOS DE SISTEMA
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ============================================
+# ARCHIVOS DE DOCKER
+# ============================================
+# Docker volumes y datos
+docker-data/
+postgres-data/
+filestore/
+
+# ============================================
+# ARCHIVOS DE TESTING
+# ============================================
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# ============================================
+# ARCHIVOS DE DEPLOYMENT
+# ============================================
+# Archivos de deployment específicos
+deploy/
+deployment/
+*.tar.gz
+*.zip
+
+# ============================================
+# NOTAS IMPORTANTES
+# ============================================
+# - Las carpetas bin/ y docs/ SÍ se trackean
+# - Solo se ignora el CONTENIDO de verticales/, clientes/ y modulos/
+# - Los archivos .gitkeep mantienen las carpetas en el repositorio
