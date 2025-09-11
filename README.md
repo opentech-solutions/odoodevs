@@ -108,12 +108,27 @@ Proyectos organizados por industria o vertical de negocio:
 ### 1. Configuración Inicial
 
 ```bash
-# Clonar o inicializar el workspace
+# Clonar el workspace (opciones disponibles)
+
+# Opción 1: HTTPS (recomendado para usuarios nuevos)
 git clone https://github.com/opentech-solutions/odoodevs.git [odoo-workspace]
+
+# Opción 2: SSH (recomendado para desarrolladores)
+git clone git@github.com:opentech-solutions/odoodevs.git [odoo-workspace]
+
+# Opción 3: GitHub CLI (si tienes gh instalado)
+gh repo clone opentech-solutions/odoodevs [odoo-workspace]
+
 cd [odoo-workspace]
 
 # Verificar estructura
 ls -la
+```
+
+**Nota sobre métodos de clonación:**
+- **HTTPS**: Funciona sin configuración adicional, ideal para usuarios nuevos
+- **SSH**: Requiere configuración de claves SSH, ideal para desarrolladores activos
+- **GitHub CLI**: Requiere instalación de `gh`, proporciona integración adicional con GitHub
 
 # Configurar PATH para comandos globales (opcional)
 ./bin/odoodevs-path.sh set
