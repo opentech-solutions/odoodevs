@@ -62,7 +62,7 @@ services:
     volumes:
       - odoo_data:/var/lib/odoo
       - ./addons:/mnt/extra-addons:ro
-      - ./config:/etc/odoo:ro
+      - ./etc:/etc/odoo:ro
       - ./logs:/var/log/odoo
     ports:
       - "${ODOO_PORT:-8069}:8069"
