@@ -186,7 +186,7 @@ validate_template() {
     # Verificar archivos esenciales
     local required_files=(
         "docker-compose.yml" "env.example" "README.md" ".gitignore"
-        "build/Dockerfile" "build/requirements.txt" "etc/odoo.conf" "config/db/init.sql"
+        "build/Dockerfile" "build/requirements.txt" "etc/odoo.conf.j2" "config/db/init.sql"
     )
     
     for file in "${required_files[@]}"; do
@@ -270,6 +270,103 @@ generate_env_file() {
     fi
     
     return 0
+}
+
+# Generar archivo odoo.conf desde plantilla Jinja2
+generate_odoo_config() {
+    local odoo_conf="$PROJECT_DIR/etc/odoo.conf"
+    local odoo_template="$PROJECT_DIR/etc/odoo.conf.j2"
+    
+    # Verificar si existe la plantilla
+    if [ ! -f "$odoo_template" ]; then
+        error "Plantilla odoo.conf.j2 no encontrada"
+        return 1
+    fi
+    
+    # Verificar si jinja2 está disponible
+    if ! command -v python3 &> /dev/null; then
+        error "Python3 requerido para generar odoo.conf desde plantilla Jinja2"
+        return 1
+    fi
+    
+    # Generar contraseñas si no existen en .env
+    local db_password="odoo"
+    local redis_password=""
+    local odoo_admin_password="admin"
+    
+    # Leer contraseñas del archivo .env si existe
+    if [ -f "$PROJECT_DIR/.env" ]; then
+        db_password=$(grep "^DB_PASSWORD=" "$PROJECT_DIR/.env" | cut -d'=' -f2)
+        redis_password=$(grep "^REDIS_PASSWORD=" "$PROJECT_DIR/.env" | cut -d'=' -f2)
+        odoo_admin_password=$(grep "^ODOO_ADMIN_PASSWORD=" "$PROJECT_DIR/.env" | cut -d'=' -f2)
+    fi
+    
+    # Crear script Python temporal para procesar Jinja2
+    cat > /tmp/generate_odoo_conf.py << EOF
+import os
+import sys
+from jinja2 import Template
+
+# Datos de configuración
+config_data = {
+    'odoo_admin_password': '$odoo_admin_password',
+    'db_host': 'db',
+    'db_port': '5432',
+    'db_user': 'odoo',
+    'db_password': '$db_password',
+    'db_name': 'odoo',
+    'redis_host': 'redis',
+    'redis_port': '6379',
+    'redis_password': '$redis_password',
+    'log_level': 'info',
+    'log_handler': ':INFO',
+    'workers': '2',
+    'max_cron_threads': '1',
+    'dev_mode': 'True',
+    'auto_reload': 'True',
+    'limit_memory_hard': '2684354560',
+    'limit_memory_soft': '2147483648',
+    'limit_request': '8192',
+    'limit_time_cpu': '600',
+    'limit_time_real': '1200',
+    'smtp_server': '',
+    'smtp_port': '587',
+    'smtp_user': '',
+    'smtp_password': '',
+    'smtp_ssl': 'False',
+    'backup_enabled': 'False',
+    'backup_schedule': '0 2 * * *',
+    'backup_retention_days': '30'
+}
+
+try:
+    # Leer plantilla
+    with open('$odoo_template', 'r') as f:
+        template_content = f.read()
+    
+    # Procesar plantilla
+    template = Template(template_content)
+    rendered_content = template.render(**config_data)
+    
+    # Escribir archivo de configuración
+    with open('$odoo_conf', 'w') as f:
+        f.write(rendered_content)
+    
+    print("Archivo odoo.conf generado exitosamente")
+    
+except Exception as e:
+    print(f"Error generando odoo.conf: {e}")
+    sys.exit(1)
+EOF
+    
+    # Ejecutar script Python
+    if python3 /tmp/generate_odoo_conf.py; then
+        rm -f /tmp/generate_odoo_conf.py
+        return 0
+    else
+        rm -f /tmp/generate_odoo_conf.py
+        return 1
+    fi
 }
 
 # Inicializar repositorio Git
@@ -374,6 +471,7 @@ main() {
     create_project_directory || exit 1
     copy_template || exit 1
     generate_env_file || exit 1
+    generate_odoo_config || exit 1
     init_git_repository || exit 1
     
     show_project_summary
