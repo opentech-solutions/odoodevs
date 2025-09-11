@@ -83,6 +83,8 @@ REQUISITOS:
     - Debe ejecutarse desde la raíz del workspace Odoo
     - El directorio actual debe contener la carpeta 'bin'
     - Debe existir el archivo 'bin/.odoodevs'
+    - Debe existir la carpeta 'clientes' (para proyectos de tipo cliente)
+    - Debe existir la carpeta 'verticales' (para proyectos de tipo vertical)
 
 NOTAS:
     - El script valida que no exista un proyecto con el mismo nombre
@@ -342,10 +344,28 @@ validate_execution_directory() {
         return 1
     fi
     
+    # Verificar que existe la carpeta clientes
+    if [ ! -d "$current_dir/clientes" ]; then
+        error "No se encontró la carpeta 'clientes' en el directorio actual"
+        error "Carpeta esperada: $current_dir/clientes"
+        error "Esta carpeta es requerida para proyectos de tipo 'cliente'"
+        return 1
+    fi
+    
+    # Verificar que existe la carpeta verticales
+    if [ ! -d "$current_dir/verticales" ]; then
+        error "No se encontró la carpeta 'verticales' en el directorio actual"
+        error "Carpeta esperada: $current_dir/verticales"
+        error "Esta carpeta es requerida para proyectos de tipo 'vertical'"
+        return 1
+    fi
+    
     success "Directorio de ejecución validado correctamente"
     log "Directorio actual: $current_dir"
     log "Carpeta bin encontrada: $current_dir/bin"
     log "Archivo .odoodevs encontrado: $current_dir/bin/.odoodevs"
+    log "Carpeta clientes encontrada: $current_dir/clientes"
+    log "Carpeta verticales encontrada: $current_dir/verticales"
     
     return 0
 }
