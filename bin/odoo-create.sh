@@ -14,12 +14,26 @@
 
 set -euo pipefail
 
-# Colores para output
+# Colores y estilos para output moderno
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+PURPLE='\033[0;35m'
+BOLD='\033[1m'
+DIM='\033[2m'
 NC='\033[0m' # No Color
+
+# Símbolos modernos
+CHECKMARK='✓'
+CROSSMARK='✗'
+ARROW='→'
+STAR='★'
+ROCKET='🚀'
+GEAR='⚙️'
+FOLDER='📁'
+FILE='📄'
 
 # Variables globales
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -29,21 +43,29 @@ CLIENT_NAME=""
 PROJECT_TYPE=""
 PROJECT_DIR=""
 
-# Funciones de logging
+# Funciones de logging modernas
 log() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+    echo -e "${CYAN}${ARROW}${NC} ${DIM}$1${NC}"
 }
 
 success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+    echo -e "${GREEN}${CHECKMARK}${NC} ${BOLD}$1${NC}"
 }
 
 warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
+    echo -e "${YELLOW}${STAR}${NC} ${BOLD}$1${NC}"
 }
 
 error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+    echo -e "${RED}${CROSSMARK}${NC} ${BOLD}$1${NC}"
+}
+
+info() {
+    echo -e "${BLUE}${GEAR}${NC} $1"
+}
+
+step() {
+    echo -e "${PURPLE}${ROCKET}${NC} ${BOLD}$1${NC}"
 }
 
 # Mostrar ayuda
@@ -298,26 +320,35 @@ Generado con scaffolding de Odoo"
 
 # Mostrar resumen del proyecto creado
 show_project_summary() {
-    log "Resumen del proyecto creado:"
     echo ""
-    echo "📁 Proyecto: $CLIENT_NAME ($PROJECT_TYPE)"
-    echo "📂 Directorio: $PROJECT_DIR"
-    echo "🐳 Servicios: Odoo, PostgreSQL, Redis, PgAdmin"
-    echo "📝 Archivos principales:"
-    echo "   - docker-compose.yml (orquestación de servicios)"
-    echo "   - .env (variables de entorno)"
-    echo "   - build/Dockerfile (imagen personalizada de Odoo)"
-    echo "   - etc/odoo.conf (configuración de Odoo)"
-    echo "   - config/db/init.sql (configuración de PostgreSQL)"
+    echo -e "${BOLD}${GREEN}╔══════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${BOLD}${GREEN}║                    ${CHECKMARK} PROYECTO CREADO EXITOSAMENTE ${CHECKMARK}                    ║${NC}"
+    echo -e "${BOLD}${GREEN}╚══════════════════════════════════════════════════════════════╝${NC}"
     echo ""
-    echo "🚀 Próximos pasos:"
-    echo "   1. cd $PROJECT_DIR"
-    echo "   2. Revisar y ajustar variables en .env"
-    echo "   3. ./bin/build-image.sh (construir imagen personalizada)"
-    echo "   4. docker-compose up -d (levantar servicios)"
-    echo "   5. Acceder a http://localhost:8069"
+    
+    echo -e "${BOLD}${CYAN}${FOLDER} Proyecto:${NC} ${BOLD}$CLIENT_NAME${NC} (${YELLOW}$PROJECT_TYPE${NC})"
+    echo -e "${BOLD}${CYAN}${FOLDER} Directorio:${NC} ${DIM}$PROJECT_DIR${NC}"
+    echo -e "${BOLD}${CYAN}🐳 Servicios:${NC} Odoo, PostgreSQL, Redis, PgAdmin"
     echo ""
-    echo "📚 Documentación: Ver README.md en el proyecto"
+    
+    echo -e "${BOLD}${BLUE}${FILE} Archivos principales:${NC}"
+    echo -e "   ${ARROW} docker-compose.yml ${DIM}(orquestación de servicios)${NC}"
+    echo -e "   ${ARROW} .env ${DIM}(variables de entorno)${NC}"
+    echo -e "   ${ARROW} build/Dockerfile ${DIM}(imagen personalizada de Odoo)${NC}"
+    echo -e "   ${ARROW} etc/odoo.conf ${DIM}(configuración de Odoo)${NC}"
+    echo -e "   ${ARROW} config/db/init.sql ${DIM}(configuración de PostgreSQL)${NC}"
+    echo ""
+    
+    echo -e "${BOLD}${PURPLE}${ROCKET} Próximos pasos:${NC}"
+    echo -e "   ${STAR} cd $PROJECT_DIR"
+    echo -e "   ${STAR} Revisar y ajustar variables en .env"
+    echo -e "   ${STAR} ./bin/build-image.sh ${DIM}(construir imagen personalizada)${NC}"
+    echo -e "   ${STAR} docker-compose up -d ${DIM}(levantar servicios)${NC}"
+    echo -e "   ${STAR} Acceder a http://localhost:8069"
+    echo ""
+    
+    echo -e "${BOLD}${CYAN}📚 Documentación:${NC} Ver README.md en el proyecto"
+    echo ""
 }
 
 # Validar directorio de ejecución
@@ -378,10 +409,15 @@ main() {
         exit 0
     fi
     
-    log "Iniciando creación de proyecto Odoo..."
-    log "Directorio del script: $SCRIPT_DIR"
-    log "Directorio del workspace: $WORKSPACE_ROOT"
-    log "Directorio de plantilla: $TEMPLATE_DIR"
+    echo -e "${BOLD}${CYAN}╔══════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${BOLD}${CYAN}║                    ${ROCKET} ODOO PROJECT CREATOR ${ROCKET}                    ║${NC}"
+    echo -e "${BOLD}${CYAN}╚══════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    
+    step "Iniciando creación de proyecto Odoo"
+    info "Directorio del script: $SCRIPT_DIR"
+    info "Directorio del workspace: $WORKSPACE_ROOT"
+    info "Directorio de plantilla: $TEMPLATE_DIR"
     
     # Validar directorio de ejecución primero
     validate_execution_directory || exit 1
