@@ -1,11 +1,11 @@
-# 🚀 Proyecto Odoo - Template Base
+# 🚀 Proyecto Odoo - Template para Clientes
 
-Este es un template base para proyectos de desarrollo Odoo usando contenedores.
+Este es un template específico para proyectos de desarrollo Odoo dirigidos a clientes, usando contenedores para un entorno de desarrollo consistente y aislado.
 
 ## 📁 Estructura del Proyecto
 
 ```text
-proyecto/
+proyecto-cliente/
 ├── docker-compose.yml      # Configuración de servicios
 ├── Dockerfile             # Imagen personalizada de Odoo
 ├── .env                   # Variables de entorno (generado automáticamente)
@@ -16,10 +16,21 @@ proyecto/
 │   ├── odoo.conf          # Configuración de Odoo
 │   └── db/
 │       └── init.sql       # Script de inicialización de BD
-├── addons/                # Módulos personalizados
+├── addons/                # Módulos personalizados del cliente
 ├── logs/                  # Logs de la aplicación
 └── data/                  # Datos persistentes
 ```
+
+## 🎯 Características Específicas para Clientes
+
+Este template está diseñado específicamente para proyectos de clientes y incluye:
+
+- **Configuración aislada** por cliente
+- **Módulos personalizados** específicos del cliente
+- **Variables de entorno** configurables por proyecto
+- **Base de datos independiente** por cliente
+- **Logs separados** para facilitar debugging
+- **Entorno de desarrollo** consistente
 
 ## 🚀 Inicio Rápido
 
@@ -73,8 +84,8 @@ docker-compose logs -f odoo
 ## 📝 Variables de Entorno
 
 ### **Configuración del Proyecto**
-- `PROJECT_NAME`: Nombre del proyecto
-- `PROJECT_TYPE`: Tipo (cliente/vertical)
+- `PROJECT_NAME`: Nombre del proyecto del cliente
+- `PROJECT_TYPE`: Tipo (cliente)
 - `ENVIRONMENT`: Entorno (development/staging/production)
 
 ### **Configuración de Odoo**
@@ -145,19 +156,33 @@ docker-compose exec odoo pip install -r requirements.txt
 docker-compose restart odoo
 ```
 
-## 📦 Módulos Personalizados
+## 📦 Módulos Personalizados del Cliente
 
-Los módulos personalizados se colocan en la carpeta `addons/`:
+Los módulos específicos del cliente se colocan en la carpeta `addons/`:
 
 ```text
 addons/
-├── mi_modulo/
+├── cliente_custom_sales/     # Módulo personalizado de ventas
 │   ├── __manifest__.py
 │   ├── __init__.py
 │   ├── models/
 │   ├── views/
 │   └── static/
+├── cliente_custom_inventory/ # Módulo personalizado de inventario
+│   ├── __manifest__.py
+│   ├── __init__.py
+│   ├── models/
+│   └── views/
+└── cliente_integrations/     # Integraciones específicas del cliente
+    ├── __manifest__.py
+    ├── __init__.py
+    └── models/
 ```
+
+### **Convenciones de Nomenclatura**
+- Prefijo `cliente_` para módulos específicos del cliente
+- Nombres descriptivos que indiquen la funcionalidad
+- Separación por funcionalidad (sales, inventory, integrations, etc.)
 
 ## 🔍 Troubleshooting
 
