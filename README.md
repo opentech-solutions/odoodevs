@@ -286,5 +286,5 @@ Para contribuir:
 
 ---
 
-**Última actualización**: 2024-09-11
+**Última actualización**: 2025-01-11
 **Versión**: 2.0.0
