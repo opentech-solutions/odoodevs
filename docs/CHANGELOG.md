@@ -5,7 +5,7 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - 2025-01-11
+## [2.0.0] - 2025-01-11 16:50
 
 ### 📄 Licencia
 
@@ -111,7 +111,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ---
 
-## [1.0.0] - 2025-01-11
+## [1.0.0] - 2025-01-11 16:50
 
 ### 🚀 Funcionalidades Iniciales
 

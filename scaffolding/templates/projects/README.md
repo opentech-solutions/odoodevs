@@ -88,5 +88,5 @@ Este template está diseñado específicamente para proyectos de clientes y incl
 
 ---
 
-**Última actualización**: 2025-01-11
+**Última actualización**: 2025-01-11 16:50
 **Versión**: 1.0.0
