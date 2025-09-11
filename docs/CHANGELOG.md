@@ -8,6 +8,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ## [2.0.0] - 2024-09-11
 
 ### 📄 Licencia
+
 - **Liberación bajo GPLv3**: Proyecto liberado bajo GNU General Public License v3.0
 - **Archivo LICENSE**: Creado `docs/LICENSE` con texto completo de GPLv3
 - **Documentación de licencia**: Actualizado README con información de GPLv3
@@ -15,6 +16,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **Cumplimiento legal**: Establecido copyleft para mantener código abierto
 
 ### 🚀 Agregado
+
 - **Sistema de Scaffolding Automático**: Implementación completa de scaffolding para proyectos Odoo
 - **Script `create-project.sh`**: Creación automática de proyectos cliente y vertical
 - **Script `build-image.sh`**: Construcción de imágenes Docker/Podman personalizadas
@@ -27,6 +29,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **Inicialización Git**: Repositorio Git automático en proyectos creados
 
 ### 🔧 Cambiado
+
 - **README.md**: Actualización completa con nueva estructura y funcionalidades
 - **Estructura del Workspace**: Agregada carpeta `scaffolding/` con plantillas
 - **Documentación**: Mejoras en guías de inicio rápido y uso de scripts
@@ -36,6 +39,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - **Versión**: Actualizada de 1.0.0 a 2.0.0
 
 ### 🛡️ Seguridad
+
 - **Permisos de Archivo**: Configuración segura del archivo `.odoodevs` (644)
 - **Validación de Directorio**: Scripts solo se ejecutan desde directorio correcto del workspace
 - **Contraseñas Aleatorias**: Generación automática de contraseñas seguras para servicios
@@ -44,6 +48,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ### 📋 Detalles Técnicos
 
 #### Scripts Implementados
+
 - **`bin/create-project.sh`** (343 líneas)
   - Validación de parámetros y estructura del workspace
   - Copia de plantilla con sustitución de variables
@@ -66,6 +71,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
   - Prevención de duplicación de entradas
 
 #### Plantilla de Proyecto
+
 - **`scaffolding/templates/projects/`**
   - `docker-compose.yml`: Servicios Odoo, PostgreSQL, Redis, PgAdmin
   - `build/Dockerfile`: Imagen personalizada de Odoo
@@ -77,6 +83,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
   - `.gitignore`: Reglas de Git específicas
 
 #### Validaciones de Seguridad
+
 - Verificación de carpeta `bin/` en directorio actual
 - Verificación de archivo `bin/.odoodevs`
 - Verificación de carpetas `clientes/` y `verticales/`
@@ -84,12 +91,14 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Prevención de sobrescritura de proyectos existentes
 
 ### 🔄 Compatibilidad
+
 - **Sistemas Operativos**: Linux y macOS
 - **Contenedores**: Docker y Podman
 - **Shells**: Bash, Zsh y otros
 - **Odoo**: Versión 17.0 (configurable)
 
 ### 📚 Documentación
+
 - **README.md**: Completamente actualizado con sistema de scaffolding
 - **CHANGELOG.md**: Creado siguiendo estándar Keep a Changelog
 - **Ayuda integrada**: Todos los scripts incluyen `--help` detallado
@@ -104,13 +113,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [1.0.0] - 2024-09-11
 
-### 🚀 Agregado
+### 🚀 Funcionalidades Iniciales
+
 - Estructura inicial del workspace Odoo
 - Carpetas base: `bin/`, `clientes/`, `docs/`, `modulos/`, `sops/`, `verticales/`
 - README.md inicial con estructura y propósito
 - Configuración básica de `.gitignore`
 
 ### 📋 Estructura Inicial
+
 ```text
 odoo-workspace/
 ├── bin/                    # Scripts compartidos y herramientas
