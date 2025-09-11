@@ -105,7 +105,7 @@ show_version() {
 # Mostrar ayuda
 show_help() {
     cat << EOF
-USO: $0 <nombre-cliente> <tipo-proyecto>
+USO: odoo-create.sh <nombre-cliente> <tipo-proyecto>
 
 DESCRIPCIÓN:
     Crea un nuevo proyecto Odoo usando la plantilla de scaffolding.
@@ -115,8 +115,8 @@ PARÁMETROS:
     tipo-proyecto     Tipo de proyecto: 'cliente' o 'vertical'
 
 EJEMPLOS:
-    ./bin/odoo-create.sh mi-cliente cliente
-    ./bin/odoo-create.sh industria-textil vertical
+    odoo-create.sh mi-cliente cliente
+    odoo-create.sh industria-textil vertical
 
 TIPOS DE PROYECTO:
     cliente          Proyecto para un cliente específico
