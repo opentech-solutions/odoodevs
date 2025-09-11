@@ -11,12 +11,11 @@ RUN apt-get update && apt-get install -y \
     htop \
     && rm -rf /var/lib/apt/lists/*
 
+# Copiar requirements.txt
+COPY requirements.txt /tmp/requirements.txt
+
 # Instalar dependencias de Python adicionales
-RUN pip3 install --no-cache-dir \
-    psycopg2-binary \
-    redis \
-    requests \
-    python-dotenv
+RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 
 # Crear directorios necesarios
 RUN mkdir -p /var/log/odoo \
