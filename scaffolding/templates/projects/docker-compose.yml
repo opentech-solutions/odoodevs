@@ -63,6 +63,8 @@ services:
       - ./addons:/mnt/extra-addons:ro
       - ./etc:/etc/odoo:ro
       - ./logs:/var/log/odoo
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - "${ODOO_PORT:-8069}:8069"
       - "${ODOO_CHAT:-8072}:8072"  # live chat
