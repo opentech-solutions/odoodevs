@@ -45,9 +45,7 @@ services:
 
   # Aplicación Odoo
   odoo:
-    build:
-      context: .
-      dockerfile: build/Dockerfile
+    image: odoo:${PROJECT_NAME}-${ODOO_VERSION}
     container_name: ${PROJECT_NAME}-odoo
     environment:
       - HOST=${DB_HOST:-db}
