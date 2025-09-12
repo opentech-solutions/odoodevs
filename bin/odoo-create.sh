@@ -232,8 +232,11 @@ create_project_directory() {
 
 # Copiar plantilla al proyecto
 copy_template() {
-    # Copiar todos los archivos de la plantilla
+    # Copiar todos los archivos de la plantilla excepto las plantillas Jinja2
     cp -r "$TEMPLATE_DIR"/* "$PROJECT_DIR/"
+    
+    # Eliminar archivos de plantilla Jinja2 que no deben estar en el proyecto
+    find "$PROJECT_DIR" -name "*.j2" -type f -delete
     
     return 0
 }
