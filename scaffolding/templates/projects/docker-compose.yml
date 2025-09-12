@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # Base de datos PostgreSQL
   db:
-    image: postgres:15-alpine
+    image: ${POSTGRES_IMAGE:-postgres:15-alpine}
     container_name: ${PROJECT_NAME}-db
     environment:
       POSTGRES_DB: ${DB_NAME:-odoo}
@@ -27,7 +27,7 @@ services:
 
   # Cache Redis
   redis:
-    image: redis:7-alpine
+    image: ${REDIS_IMAGE:-redis:7-alpine}
     container_name: ${PROJECT_NAME}-redis
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-}
     volumes:
@@ -45,7 +45,7 @@ services:
 
   # Aplicación Odoo
   odoo:
-    image: odoo:${PROJECT_NAME}-${ODOO_VERSION}
+    image: ${ODOO_IMAGE:-odoo:${PROJECT_NAME}-${ODOO_VERSION}}
     container_name: ${PROJECT_NAME}-odoo
     environment:
       - HOST=${DB_HOST:-db}
@@ -81,7 +81,7 @@ services:
 
   # Administrador de base de datos (solo desarrollo)
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: ${PGADMIN_IMAGE:-dpage/pgadmin4:latest}
     container_name: ${PROJECT_NAME}-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@example.com}
