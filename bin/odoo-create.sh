@@ -241,7 +241,7 @@ copy_template() {
 # Generar archivo .env desde plantilla Jinja2
 generate_env_file() {
     local env_file="$PROJECT_DIR/.env"
-    local env_template="$PROJECT_DIR/.env.j2"
+    local env_template="$TEMPLATE_DIR/.env.j2"
     
     # Verificar si existe la plantilla
     if [ ! -f "$env_template" ]; then
@@ -345,7 +345,7 @@ EOF
 # Generar archivo odoo.conf desde plantilla Jinja2
 generate_odoo_config() {
     local odoo_conf="$PROJECT_DIR/etc/odoo.conf"
-    local odoo_template="$PROJECT_DIR/etc/odoo.conf.j2"
+    local odoo_template="$TEMPLATE_DIR/etc/odoo.conf.j2"
     
     # Verificar si existe la plantilla
     if [ ! -f "$odoo_template" ]; then
