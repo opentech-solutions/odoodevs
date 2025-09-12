@@ -1,0 +1,21 @@
+# Paquetes del sistema para desarrollo Odoo
+# Este archivo contiene la lista de paquetes a instalar en el contenedor
+
+# Herramientas básicas
+curl
+git
+vim
+nano
+htop
+
+# Compilación y desarrollo
+gcc
+python3-dev
+
+# Impresión (CUPS)
+cups
+libcups2-dev
+
+# Localización
+locales
+locales-all

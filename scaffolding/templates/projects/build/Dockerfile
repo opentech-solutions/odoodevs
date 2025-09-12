@@ -4,13 +4,15 @@ FROM odoo:${ODOO_VERSION}
 
 # Instalar dependencias del sistema
 USER root
-RUN apt-get update && apt-get install -y \
-    curl \
-    git \
-    vim \
-    nano \
-    htop \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get upgrade -y
+
+# Copiar lista de paquetes
+COPY packages.txt /tmp/packages.txt
+
+# Instalar paquetes desde archivo
+RUN apt-get install -y $(cat /tmp/packages.txt | grep -v '^#' | tr '\n' ' ') \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm /tmp/packages.txt
 
 # Copiar requirements.txt
 COPY requirements.txt /tmp/requirements.txt
