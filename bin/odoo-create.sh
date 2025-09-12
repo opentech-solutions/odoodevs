@@ -320,6 +320,7 @@ env_data = {
     'db_encoding': '--encoding=UTF-8 --locale=C',
     'postgres_path': './db',
     'odoo_chat': '8072',
+    'odoo_backups': '~/backups/odoo/$CLIENT_NAME',
     'smtp_enabled': False,
     'smtp_server': '',
     'smtp_port': '587',
