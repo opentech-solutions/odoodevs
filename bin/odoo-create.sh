@@ -491,7 +491,7 @@ show_project_summary() {
     echo -e "${BOLD}${PURPLE}${ROCKET} Próximos pasos:${NC}"
     echo -e "   ${STAR} cd $PROJECT_DIR"
     echo -e "   ${STAR} Revisar y ajustar variables en .env"
-    echo -e "   ${STAR} ./bin/build-image.sh ${DIM}(construir imagen personalizada)${NC}"
+    echo -e "   ${STAR} ./bin/odoo-image.sh ${DIM}(construir imagen personalizada)${NC}"
     echo -e "   ${STAR} docker-compose up -d ${DIM}(levantar servicios)${NC}"
     echo -e "   ${STAR} Acceder a http://localhost:8069"
     echo ""
