@@ -20,7 +20,11 @@ RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 
 # Crear directorios necesarios
 RUN mkdir -p /var/log/odoo \
-    && chown -R odoo:odoo /var/log/odoo
+    && mkdir /backups 2>/dev/null \
+    && mkdir /data 2>/dev/null \
+    && chown -R odoo:odoo /var/log/odoo \
+    && chown -R odoo:odoo /backups \
+    && chown -R odoo:odoo /data
 
 # Configurar permisos
 RUN chown -R odoo:odoo /mnt/extra-addons
@@ -30,6 +34,9 @@ USER odoo
 
 # Exponer puerto
 EXPOSE 8069
+
+# Declarar volúmenes
+VOLUME ["/backups", "/data"]
 
 # Comando por defecto
 CMD ["odoo"]
