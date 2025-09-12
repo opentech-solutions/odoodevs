@@ -12,7 +12,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: ${DB_ENCODING:-"--encoding=UTF-8 --locale=C"}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ${POSTGRES_PATH:-./db}:/var/lib/postgresql/data
       - ./config/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     ports:
       - "${DB_PORT:-5432}:5432"

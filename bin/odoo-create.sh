@@ -318,6 +318,7 @@ env_data = {
     'odoo_image': 'odoo:$CLIENT_NAME-17.0',
     'pgadmin_image': 'dpage/pgadmin4:latest',
     'db_encoding': '--encoding=UTF-8 --locale=C',
+    'postgres_path': './db',
     'smtp_enabled': False,
     'smtp_server': '',
     'smtp_port': '587',
