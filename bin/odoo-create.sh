@@ -262,6 +262,15 @@ generate_env_file() {
     local odoo_password="odoo"
     local odoo_admin_password="admin"
     
+    # Obtener email de PgAdmin desde Git config
+    local pgadmin_email="admin@example.com"
+    if command -v git &> /dev/null; then
+        local git_email=$(git config --get user.email 2>/dev/null)
+        if [ -n "$git_email" ]; then
+            pgadmin_email="$git_email"
+        fi
+    fi
+    
     if command -v openssl &> /dev/null; then
         db_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
         redis_password=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
@@ -294,7 +303,7 @@ env_data = {
     'redis_port': '6379',
     'redis_password': '$redis_password',
     'pgadmin_port': '8080',
-    'pgadmin_email': 'admin@example.com',
+    'pgadmin_email': '$pgadmin_email',
     'pgadmin_password': '$pgadmin_password',
     'log_level': 'info',
     'log_handler': ':INFO',
