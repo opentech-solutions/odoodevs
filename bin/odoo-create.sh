@@ -317,6 +317,7 @@ env_data = {
     'redis_image': 'redis:7-alpine',
     'odoo_image': 'odoo:$CLIENT_NAME-17.0',
     'pgadmin_image': 'dpage/pgadmin4:latest',
+    'db_encoding': '--encoding=UTF-8 --locale=C',
     'smtp_enabled': False,
     'smtp_server': '',
     'smtp_port': '587',

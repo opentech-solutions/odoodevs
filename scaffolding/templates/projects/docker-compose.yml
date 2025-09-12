@@ -10,6 +10,7 @@ services:
       POSTGRES_USER: ${DB_USER:-odoo}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: ${DB_ENCODING:-"--encoding=UTF-8 --locale=C"}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./config/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
