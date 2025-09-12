@@ -319,6 +319,7 @@ env_data = {
     'pgadmin_image': 'dpage/pgadmin4:latest',
     'db_encoding': '--encoding=UTF-8 --locale=C',
     'postgres_path': './db',
+    'odoo_chat': '8072',
     'smtp_enabled': False,
     'smtp_server': '',
     'smtp_port': '587',

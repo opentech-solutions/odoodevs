@@ -65,6 +65,7 @@ services:
       - ./logs:/var/log/odoo
     ports:
       - "${ODOO_PORT:-8069}:8069"
+      - "${ODOO_CHAT:-8072}:8072"  # live chat
     depends_on:
       db:
         condition: service_healthy
