@@ -157,7 +157,12 @@ process_main_files() {
             
             if file_exists "$file"; then
                 log "VERBOSE" "Copiando archivo principal: $file"
-                cp "$file" "$output_dir/"
+                # Crear directorio padre si no existe
+                local dir_path=$(dirname "$file")
+                if [[ "$dir_path" != "." ]]; then
+                    mkdir -p "$output_dir/$dir_path"
+                fi
+                cp "$file" "$output_dir/$file"
             else
                 log "WARNING" "Archivo principal no encontrado: $file"
             fi
