@@ -58,10 +58,10 @@ validate_project_structure() {
         return 1
     fi
     
-    # Verificar que el Dockerfile tenga FROM odoo: o FROM odoo/odoo:
-    if ! grep -q "^FROM odoo" "$PROJECT_ROOT/build/Dockerfile"; then
-        error "El Dockerfile debe comenzar con 'FROM odoo:' o 'FROM odoo/odoo:' seguido de la versión"
-        error "Ejemplo: FROM odoo:17.0 o FROM odoo/odoo:17.0"
+    # Verificar que el Dockerfile tenga FROM odoo: o FROM odoo/odoo: o FROM docker.io/odoo/odoo:
+    if ! grep -q "^FROM.*odoo" "$PROJECT_ROOT/build/Dockerfile"; then
+        error "El Dockerfile debe comenzar con 'FROM odoo:' o 'FROM odoo/odoo:' o 'FROM docker.io/odoo/odoo:' seguido de la versión"
+        error "Ejemplo: FROM odoo:17.0 o FROM odoo/odoo:17.0 o FROM docker.io/odoo/odoo:17.0"
         return 1
     fi
     

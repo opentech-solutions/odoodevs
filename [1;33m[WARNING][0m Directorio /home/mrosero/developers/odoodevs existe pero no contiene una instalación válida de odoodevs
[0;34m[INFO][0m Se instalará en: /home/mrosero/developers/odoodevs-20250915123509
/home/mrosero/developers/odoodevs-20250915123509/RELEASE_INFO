@@ -1,4 +1,0 @@
-odoodevs v1.0.0
-Released: 2025-09-15 17:34:57 UTC
-Repository: https://github.com/opentech-solutions/odoodevs
-Install: curl -fsSL https://raw.githubusercontent.com/opentech-solutions/odoodevs/main/install.sh | bash -s -- --version v1.0.0

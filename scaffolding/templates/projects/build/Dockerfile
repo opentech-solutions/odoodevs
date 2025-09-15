@@ -1,6 +1,6 @@
 # Dockerfile para desarrollo de Odoo
 ARG ODOO_VERSION=17.0
-FROM odoo/odoo:${ODOO_VERSION}
+FROM odoo:${ODOO_VERSION}
 
 # Instalar dependencias del sistema
 USER root
