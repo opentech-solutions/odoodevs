@@ -138,6 +138,9 @@ Proyectos organizados por industria o vertical de negocio:
 # Instalar odoodevs automáticamente
 curl -fsSL https://raw.githubusercontent.com/opentech-solutions/odoodevs/main/install.sh | bash
 
+# O con versión específica
+curl -fsSL https://raw.githubusercontent.com/opentech-solutions/odoodevs/main/install.sh | bash -s -- --version v1.0.0
+
 # El instalador:
 # - Descarga la última versión
 # - Instala en ~/developers/odoodevs
