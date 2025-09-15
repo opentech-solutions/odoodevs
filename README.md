@@ -276,6 +276,7 @@ odevs-manager uninstall
 ```
 
 **Funcionalidades específicas:**
+
 - **`version`**: Muestra versión instalada y ubicación
 - **`update`**: Descarga e instala la última versión desde GitHub
 - **`install VERSION`**: Instala una versión específica usando el instalador
