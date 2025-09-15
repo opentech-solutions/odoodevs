@@ -100,7 +100,7 @@ create_release_package() {
 odoodevs $version
 Released: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 Repository: https://github.com/$REPO_OWNER/$REPO_NAME
-Install: curl -fsSL https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/main/install.sh | bash -s -- --version $version
+Install: curl -fsSL https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/master/install.sh | bash -s -- --version $version
 EOF
     
     # Crear paquete tar.gz
@@ -141,8 +141,8 @@ push_changes() {
     log "INFO" "Haciendo push de cambios..."
     
     # Push del código
-    if git push origin main; then
-        log "SUCCESS" "Código subido a main"
+    if git push origin master; then
+        log "SUCCESS" "Código subido a master"
     else
         log "ERROR" "Error subiendo código"
         return 1
@@ -347,7 +347,7 @@ main() {
     
     log "SUCCESS" "🎉 Release $version creado exitosamente!"
     log "INFO" "Los usuarios pueden instalar con:"
-    log "INFO" "curl -fsSL https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/main/install.sh | bash -s -- --version $version"
+    log "INFO" "curl -fsSL https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/master/install.sh | bash -s -- --version $version"
 }
 
 # Ejecutar función principal
