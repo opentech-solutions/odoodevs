@@ -277,8 +277,9 @@ create_package() {
     log "INFO" "Creando paquete: $package_name.tar.gz"
     
     # Crear paquete tar.gz
-    cd "$(dirname "$output_dir")"
-    tar -czf "$package_name.tar.gz" "$(basename "$output_dir")/"
+    cd "$output_dir"
+    tar -czf "../$package_name.tar.gz" .
+    cd ..
     
     # Mostrar información del paquete
     log "SUCCESS" "Paquete creado: $package_name.tar.gz"
