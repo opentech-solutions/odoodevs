@@ -16,6 +16,7 @@ main_files:
 directories:
   - scaffolding
   - docs
+  - configs
 
 # Archivos de configuración del proyecto
 config_files:
