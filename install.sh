@@ -203,13 +203,13 @@ determine_install_dir() {
         
         # Verificar si es una instalación válida de odoodevs
         if [[ -f "$default_dir/bin/odoo-create.sh" ]] && [[ -f "$default_dir/VERSION" ]]; then
-            log "INFO" "odoodevs ya está instalado en $default_dir"
-            log "INFO" "Para actualizar, usa: odevs-manager update"
-            log "INFO" "Para ver información: odevs-manager info"
+            log "INFO" "odoodevs ya está instalado en $default_dir" >&2
+            log "INFO" "Para actualizar, usa: odevs-manager update" >&2
+            log "INFO" "Para ver información: odevs-manager info" >&2
             exit 0
         else
-            log "WARNING" "Directorio $default_dir existe pero no contiene una instalación válida de odoodevs"
-            log "INFO" "Se instalará en: $default_dir (sobrescribiendo contenido existente)"
+            log "WARNING" "Directorio $default_dir existe pero no contiene una instalación válida de odoodevs" >&2
+            log "INFO" "Se instalará en: $default_dir (sobrescribiendo contenido existente)" >&2
             echo "$default_dir"
         fi
     else
