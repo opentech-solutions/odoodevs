@@ -1,19 +1,19 @@
-# Guía Completa de Releases de bintools
+# Guía Completa de Releases de odoodevs
 
 ## 🎯 Sistema de Releases Directo
 
-Este proyecto usa un sistema de releases directo que se ejecuta **completamente** desde tu máquina local usando GitHub CLI. El script `create-release.sh` crea releases directamente en GitHub sin depender de workflows externos, y usa un sistema de configuración flexible para definir exactamente qué archivos se incluyen en cada release.
+Este proyecto usa un sistema de releases directo que se ejecuta **completamente** desde tu máquina local usando GitHub CLI. El script `odevs-newrel.sh` crea releases directamente en GitHub sin depender de workflows externos, y usa un sistema de configuración flexible para definir exactamente qué archivos se incluyen en cada release.
 
 ## 🛠️ Scripts de Gestión de Releases
 
 El proyecto incluye scripts especializados para gestionar el ciclo completo de releases:
 
-### 📝 `create-release.sh` - Crear Releases
+### 📝 `odevs-newrel.sh` - Crear Releases
 
 **Características:**
 
 - ✅ Crea releases directamente usando GitHub CLI (sin workflows)
-- ✅ Genera paquetes automáticamente con `release-builder.sh`
+- ✅ Genera paquetes automáticamente con `odevs-buildrel.sh`
 - ✅ Gestiona tags de Git automáticamente
 - ✅ Sube assets de release
 - ✅ Soporte para drafts y prereleases
@@ -27,7 +27,7 @@ El proyecto incluye scripts especializados para gestionar el ciclo completo de r
 - `--no-tag`: No crear tag de Git
 - `--no-push`: No hacer push automático
 
-### 🗑️ `delete-release.sh` - Eliminar Releases
+### 🗑️ `odevs-delrel.sh` - Eliminar Releases
 
 **Características:**
 
@@ -45,7 +45,7 @@ El proyecto incluye scripts especializados para gestionar el ciclo completo de r
 - `--list, -l`: Listar releases disponibles
 - `--help, -h`: Mostrar ayuda
 
-### ⚙️ `release-builder.sh` - Generar Paquetes
+### ⚙️ `odevs-buildrel.sh` - Generar Paquetes
 
 **Características:**
 
@@ -61,16 +61,16 @@ El proyecto incluye scripts especializados para gestionar el ciclo completo de r
 
 ```bash
 # Crear release básico
-./create-release.sh --version v1.0.0 --message "Primera versión estable"
+./odevs-newrel.sh --version v1.0.0 --message "Primera versión estable"
 
 # Crear release como draft
-./create-release.sh -v v1.1.0 -m "Nueva funcionalidad" --draft
+./odevs-newrel.sh -v v1.1.0 -m "Nueva funcionalidad" --draft
 
 # Crear prerelease
-./create-release.sh -v v1.2.0-beta -m "Versión beta" --prerelease
+./odevs-newrel.sh -v v1.2.0-beta -m "Versión beta" --prerelease
 
 # Crear sin hacer push automático
-./create-release.sh -v v1.0.1 -m "Bug fixes" --no-push
+./odevs-newrel.sh -v v1.0.1 -m "Bug fixes" --no-push
 ```
 
 ### Método 2: Gestión de Releases
@@ -79,16 +79,16 @@ Ahora también tienes un script para eliminar releases:
 
 ```bash
 # Listar releases disponibles
-./delete-release.sh --list
+./odevs-delrel.sh --list
 
 # Eliminar solo el release (mantener tag)
-./delete-release.sh --version v1.0.0
+./odevs-delrel.sh --version v1.0.0
 
 # Eliminar release y tag
-./delete-release.sh --version v1.0.0 --delete-tag
+./odevs-delrel.sh --version v1.0.0 --delete-tag
 
 # Eliminar sin confirmación
-./delete-release.sh --version v1.0.0 --delete-tag --force
+./odevs-delrel.sh --version v1.0.0 --delete-tag --force
 ```
 
 ### Método 3: Completamente Manual
@@ -107,12 +107,12 @@ git push origin main
 git push origin v1.0.0
 
 # 4. Crear paquete manualmente usando el sistema de configuración
-./release-builder.sh --type user --output /tmp/bintools-v1.0.0
-tar -czf bintools-v1.0.0.tar.gz bintools-v1.0.0/
+./odevs-buildrel.sh --type user --output /tmp/odoodevs-v1.0.0
+tar -czf odoodevs-v1.0.0.tar.gz odoodevs-v1.0.0/
 
 # 5. Crear release en GitHub
-# Ve a https://github.com/maurorosero/bintools/releases/new
-# Adjunta el archivo bintools-v1.0.0.tar.gz
+# Ve a https://github.com/opentech-solutions/odoodevs/releases/new
+# Adjunta el archivo odoodevs-v1.0.0.tar.gz
 ```
 
 ## 📋 Opciones del Script de Release
@@ -153,17 +153,19 @@ El sistema usa un archivo de configuración que te permite definir exactamente q
 ```yaml
 # Archivos principales que se incluyen en todos los releases
 main_files:
-  - packages.sh
-  - micursor.py
-  - pymanager.sh
-  - fix_hdmi_audio.sh
-  - videoset.sh
-  - nextcloud-installer.sh
-  - hexroute
+  - bin/odoo-create.sh
+  - bin/odoo-image.sh
+  - bin/odoodevs-path.sh
+  - bin/odevs-manager.sh
+  - bin/odevs-fixperms.sh
+  - bin/.odoodevs
+  - bin/.created
+  - bin/.updated
 
 # Directorios que se incluyen completos
 directories:
-  - configs
+  - scaffolding
+  - docs
 
 # Archivos de configuración del proyecto
 config_files:
@@ -175,16 +177,16 @@ optional_files:
   documentation:
     - README.md
     - LICENSE
+    - CHANGELOG.md
   
   development:
     - .gitignore
     - docs/RELEASE.md
-    - create-release.sh
-    - release-builder.sh
-    - bintools-manager.sh
+    - odevs-buildrel.sh
+    - odevs-delrel.sh
+    - odevs-newrel.sh
   
   project_config:
-    - .github/workflows/release.yml
     - configs/release-config.yml
 
 # Configuración por tipo de release
@@ -250,7 +252,7 @@ Incluye todos los archivos del proyecto:
 
 ### 2. **Release de Usuario (`user`)**
 
-Incluye solo lo necesario para usar bintools:
+Incluye solo lo necesario para usar odoodevs:
 
 - ✅ Archivos principales
 - ✅ Directorios de configuración
@@ -262,7 +264,7 @@ Incluye solo lo necesario para usar bintools:
 **Uso:**
 
 ```bash
-./release-builder.sh --type user --output /tmp/user-release
+./odevs-buildrel.sh --type user --output /tmp/user-release
 ```
 
 ### 3. **Release Mínimo (`minimal`)**
@@ -279,7 +281,7 @@ Incluye solo los archivos esenciales:
 **Uso:**
 
 ```bash
-./release-builder.sh --type minimal --output /tmp/minimal-release
+./odevs-buildrel.sh --type minimal --output /tmp/minimal-release
 ```
 
 ## 🔧 Personalización de Archivos
@@ -292,9 +294,9 @@ Para agregar un nuevo archivo al release:
 
 ```yaml
 main_files:
-  - packages.sh
-  - micursor.py
-  - nuevo-script.sh  # ← Agregar aquí
+  - bin/odoo-create.sh
+  - bin/odoo-image.sh
+  - bin/nuevo-script.sh  # ← Agregar aquí
 ```
 
 1. **Archivo opcional** (según categoría):
@@ -345,16 +347,16 @@ release_types:
 
 ```bash
 # Release básico
-./release-builder.sh --type user --output /tmp/release
+./odevs-buildrel.sh --type user --output /tmp/release
 
 # Release completo con verbose
-./release-builder.sh --type full --output /tmp/full-release --verbose
+./odevs-buildrel.sh --type full --output /tmp/full-release --verbose
 
 # Usar configuración personalizada
-./release-builder.sh --type minimal --config mi-config.yml --output /tmp/minimal
+./odevs-buildrel.sh --type minimal --config mi-config.yml --output /tmp/minimal
 
 # Ver ayuda
-./release-builder.sh --help
+./odevs-buildrel.sh --help
 ```
 
 ## 📦 Estructura del Paquete
@@ -362,19 +364,24 @@ release_types:
 Cada release incluye según el tipo configurado:
 
 ```text
-bintools-v1.0.0/
-├── packages.sh              # Instalador de paquetes
-├── micursor.py              # Gestor de Cursor IDE
-├── pymanager.sh             # Gestor de Python
-├── fix_hdmi_audio.sh        # Solucionador de audio HDMI
-├── videoset.sh              # Configurador de pantalla
-├── nextcloud-installer.sh   # Gestor de Nextcloud
-├── hexroute                 # Convertidor de rutas
-├── configs/                 # Configuraciones de paquetes
-│   ├── base.pkg
-│   ├── devs.pkg
-│   ├── orgs.pkg
-│   └── user.pkg
+odoodevs-v1.0.0/
+├── bin/                     # Scripts ejecutables
+│   ├── odoo-create.sh       # Creador de proyectos
+│   ├── odoo-image.sh        # Constructor de imágenes
+│   ├── odoodevs-path.sh     # Gestor de PATH
+│   ├── odevs-manager.sh     # Gestor de versiones
+│   ├── odevs-fixperms.sh    # Gestor de permisos
+│   ├── .odoodevs            # Marcador del workspace
+│   ├── .created             # Fecha de creación
+│   └── .updated             # Fecha de actualización
+├── scaffolding/             # Plantillas de proyectos
+│   └── templates/
+├── docs/                    # Documentación
+│   ├── LICENSE              # Licencia GPLv3
+│   ├── CHANGELOG.md         # Historial de cambios
+│   └── RELEASE.md           # Guía de releases
+├── configs/                 # Configuraciones
+│   └── release-config.yml   # Configuración de releases
 ├── VERSION                  # Archivo de versión
 └── RELEASE_INFO             # Información del release
 ```
@@ -389,23 +396,23 @@ git add .
 git commit -m "FEAT: Add new feature"
 
 # 2. Crear release
-./create-release.sh --version v1.1.0 --message "Nueva funcionalidad agregada"
+./odevs-newrel.sh --version v1.1.0 --message "Nueva funcionalidad agregada"
 
 # 3. Verificar en GitHub
-# Ve a https://github.com/maurorosero/bintools/releases
+# Ve a https://github.com/opentech-solutions/odoodevs/releases
 ```
 
 ### Para Releases de Prueba
 
 ```bash
 # 1. Crear prerelease
-./create-release.sh -v v1.1.0-beta -m "Versión beta para testing" --prerelease
+./odevs-newrel.sh -v v1.1.0-beta -m "Versión beta para testing" --prerelease
 
 # 2. Testing interno del paquete antes de release estable
-./release-builder.sh --type user --output /tmp/test-release --config configs/release-config.yml
+./odevs-buildrel.sh --type user --output /tmp/test-release --config configs/release-config.yml
 
 # 3. Si todo está bien, crear release estable
-./create-release.sh -v v1.1.0 -m "Versión estable"
+./odevs-newrel.sh -v v1.1.0 -m "Versión estable"
 ```
 
 ## 🔄 Integración con GitHub Actions
@@ -416,9 +423,9 @@ El workflow de GitHub Actions usa automáticamente el sistema de configuración:
 # En .github/workflows/release.yml
 - name: Create release package
   run: |
-    ./release-builder.sh \
+    ./odevs-buildrel.sh \
       --type user \
-      --output "/tmp/bintools-release/bintools-${VERSION}" \
+      --output "/tmp/odoodevs-release/odoodevs-${VERSION}" \
       --config configs/release-config.yml \
       --verbose
 ```
@@ -429,18 +436,18 @@ El workflow de GitHub Actions usa automáticamente el sistema de configuración:
 
 ```bash
 # Verificar que el release fue creado
-curl -s https://api.github.com/repos/maurorosero/bintools/releases/latest | jq '.tag_name'
+curl -s https://api.github.com/repos/opentech-solutions/odoodevs/releases/latest | jq '.tag_name'
 
 # Verificar que los assets están disponibles
-curl -s https://api.github.com/repos/maurorosero/bintools/releases/latest | jq '.assets[].name'
+curl -s https://api.github.com/repos/opentech-solutions/odoodevs/releases/latest | jq '.assets[].name'
 
 # Verificar que el workflow completó exitosamente
-# Ve a: https://github.com/maurorosero/bintools/actions
+# Ve a: https://github.com/opentech-solutions/odoodevs/actions
 ```
 
 ### Verificar en GitHub
 
-1. Ve a [Releases](https://github.com/maurorosero/bintools/releases)
+1. Ve a [Releases](https://github.com/opentech-solutions/odoodevs/releases)
 2. Verifica que el release aparezca
 3. Descarga el archivo tar.gz
 4. Verifica el contenido
@@ -478,7 +485,7 @@ git tag -d v1.0.0
 git push origin :refs/tags/v1.0.0
 
 # Crear nuevo tag
-./create-release.sh --version v1.0.0 --message "Release corregido"
+./odevs-newrel.sh --version v1.0.0 --message "Release corregido"
 ```
 
 ### Error: "No se puede hacer push"
@@ -566,4 +573,4 @@ Si tienes problemas con los releases:
 3. **Verificar configuración**: `python3 -c "import yaml; yaml.safe_load(open('configs/release-config.yml'))"`
 4. **Verificar archivos**: Asegúrate de que los archivos/directorios existen
 5. **Revisar patrones**: Verifica los patrones de exclusión en release-config.yml
-6. **Abrir Issue**: [GitHub Issues](https://github.com/maurorosero/bintools/issues)
+6. **Abrir Issue**: [GitHub Issues](https://github.com/opentech-solutions/odoodevs/issues)
