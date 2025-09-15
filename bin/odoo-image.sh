@@ -178,7 +178,7 @@ build_image() {
     log "Versión de Odoo: $ODOO_VERSION"
     
     # Definir nombre de la imagen
-    IMAGE_NAME="odoo:${PROJECT_NAME}-${ODOO_VERSION}"
+    IMAGE_NAME="${PROJECT_NAME}-${ODOO_VERSION}"
     
     log "Nombre de la imagen: $IMAGE_NAME"
     log "Directorio de construcción: $PROJECT_ROOT/build"

@@ -18,7 +18,7 @@ RUN apt-get install -y $(cat /tmp/packages.txt | grep -v '^#' | tr '\n' ' ') \
 COPY requirements.txt /tmp/requirements.txt
 
 # Instalar dependencias de Python adicionales
-RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages -r /tmp/requirements.txt
 
 # Crear directorios necesarios
 RUN mkdir -p /var/log/odoo \
