@@ -175,6 +175,7 @@ load_environment_variables() {
 # Construir imagen de Odoo
 build_image() {
     log "Construyendo imagen de Odoo..."
+    log "Versión de Odoo: $ODOO_VERSION"
     
     # Definir nombre de la imagen
     IMAGE_NAME="odoo:${PROJECT_NAME}-${ODOO_VERSION}"
