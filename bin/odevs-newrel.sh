@@ -207,10 +207,10 @@ create_github_release_direct() {
     
     log "INFO" "Creando release $version directamente..."
     
-    # Crear el paquete usando release-builder.sh
+    # Crear el paquete usando odevs-buildrel.sh
     log "INFO" "Generando paquete de release..."
     local package_path
-    package_path=$(./odevs-buildrel.sh \
+    package_path=$(bin/odevs-buildrel.sh \
         --type user \
         --output "/tmp/odoodevs-$version" \
         --config configs/release-config.yml 2>&1 | tail -1)
