@@ -151,8 +151,19 @@ deployment/
 *.zip
 
 # ============================================
+# ARCHIVOS CRÍTICOS DEL PROYECTO
+# ============================================
+# Permitir tracking de archivos críticos del proyecto
+!.gitignore
+!install.sh
+!LICENSE
+!VERSION
+!CHANGELOG.md
+
+# ============================================
 # NOTAS IMPORTANTES
 # ============================================
 # - Las carpetas bin/ y docs/ SÍ se trackean
 # - Solo se ignora el CONTENIDO de verticales/, clientes/ y modulos/
 # - Los archivos .gitkeep mantienen las carpetas en el repositorio
+# - Los archivos críticos del proyecto están explícitamente permitidos
