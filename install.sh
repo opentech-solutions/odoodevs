@@ -201,8 +201,8 @@ determine_install_dir() {
             exit 0
         else
             log "WARNING" "Directorio $default_dir existe pero no contiene una instalación válida de odoodevs"
-            log "INFO" "Se instalará en: $HOME/developers/${PROJECT_NAME}-$(date +%Y%m%d%H%M%S)"
-            echo "$HOME/developers/${PROJECT_NAME}-$(date +%Y%m%d%H%M%S)"
+            log "INFO" "Se instalará en: $default_dir (sobrescribiendo contenido existente)"
+            echo "$default_dir"
         fi
     else
         echo "$default_dir"
