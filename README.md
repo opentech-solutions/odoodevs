@@ -262,7 +262,7 @@ odevs-manager install v1.0.0
 # Listar versiones disponibles
 odevs-manager list
 
-# Ver información de instalación
+# Ver información detallada de instalación
 odevs-manager info
 
 # Verificar integridad de instalación
@@ -271,6 +271,15 @@ odevs-manager check
 # Desinstalar completamente
 odevs-manager uninstall
 ```
+
+**Funcionalidades específicas:**
+- **`version`**: Muestra versión instalada y ubicación
+- **`update`**: Descarga e instala la última versión desde GitHub
+- **`install VERSION`**: Instala una versión específica usando el instalador
+- **`list`**: Lista las últimas 10 versiones disponibles en GitHub
+- **`info`**: Muestra información detallada: versión, ubicación, archivos, comandos disponibles
+- **`check`**: Verifica integridad de instalación (archivos, directorios, permisos)
+- **`uninstall`**: Elimina completamente la instalación con confirmación
 
 ## 📋 Convenciones de Nomenclatura
 
