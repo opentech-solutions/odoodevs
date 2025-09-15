@@ -352,6 +352,10 @@ main() {
     # Crear directorio de salida
     mkdir -p "$output_dir"
     
+    # Limpiar directorio de trabajo de ejecuciones anteriores
+    log "VERBOSE" "Limpiando directorio de trabajo..."
+    rm -rf "$output_dir"/*
+    
     # Leer patrones de exclusión
     local exclude_patterns
     mapfile -t exclude_patterns < <(read_config "$config_file" "exclude_patterns")
