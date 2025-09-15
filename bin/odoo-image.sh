@@ -5,9 +5,8 @@
 
 set -e
 
-# Obtener directorio del script
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+# Obtener directorio del proyecto (desde donde se ejecuta el script)
+PROJECT_ROOT="$(pwd)"
 
 # Colores para output
 RED='\033[0;31m'
