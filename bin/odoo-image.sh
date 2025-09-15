@@ -183,9 +183,9 @@ build_image() {
     log "Directorio de construcción: $PROJECT_ROOT/build"
     
     # Ejecutar comando de construcción
-    log "Ejecutando: $CONTAINER_ENGINE build $PROJECT_ROOT/build -t $IMAGE_NAME"
+    log "Ejecutando: $CONTAINER_ENGINE build --build-arg ODOO_VERSION=$ODOO_VERSION $PROJECT_ROOT/build -t $IMAGE_NAME"
     
-    if $CONTAINER_ENGINE build "$PROJECT_ROOT/build" -t "$IMAGE_NAME"; then
+    if $CONTAINER_ENGINE build --build-arg ODOO_VERSION="$ODOO_VERSION" "$PROJECT_ROOT/build" -t "$IMAGE_NAME"; then
         success "Imagen construida exitosamente: $IMAGE_NAME"
         
         # Mostrar información de la imagen
