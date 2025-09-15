@@ -12,17 +12,26 @@ ws-odoo/
 │   ├── .odoodevs          # Marcador de workspace (solo lectura)
 │   ├── odoo-create.sh       # Scaffolding de proyectos Odoo
 │   ├── odoo-image.sh       # Construcción de imágenes Docker/Podman
-│   └── odoodevs-path.sh    # Configuración del PATH
+│   ├── odoodevs-path.sh    # Configuración del PATH
+│   ├── odevs-manager.sh    # Gestor de versiones
+│   ├── odevs-fixperms.sh   # Gestor de permisos
+│   ├── odevs-newrel.sh     # Creador de releases
+│   ├── odevs-buildrel.sh   # Constructor de paquetes
+│   └── odevs-delrel.sh    # Eliminador de releases
 ├── clientes/               # Proyectos específicos por cliente
 ├── docs/                   # Documentación compartida
 │   ├── LICENSE             # Licencia GPLv3
-│   └── CHANGELOG.md        # Historial de cambios
+│   ├── CHANGELOG.md        # Historial de cambios
+│   └── RELEASE.md          # Guía de releases
 ├── modulos/                # Módulos reutilizables
 ├── scaffolding/            # Plantillas para scaffolding
 │   └── templates/
 │       └── projects/        # Plantilla base de proyectos Odoo
+├── configs/                # Configuraciones del sistema
+│   └── release-config.yml   # Configuración de releases
 ├── sops/                   # Archivos de secretos gestionados por SOPS
 ├── verticales/             # Proyectos por vertical de negocio
+├── VERSION                 # Archivo de versión
 └── .gitignore              # Configuración de Git
 ```
 
@@ -48,8 +57,11 @@ Contiene scripts y herramientas que se aplican a todos los proyectos:
 - **`odoo-create.sh`** - Scaffolding automático de proyectos Odoo
 - **`odoo-image.sh`** - Construcción de imágenes Docker/Podman personalizadas
 - **`odoodevs-path.sh`** - Configuración del PATH para comandos globales
-- Scripts de backup y deploy
-- Utilidades comunes
+- **`odevs-manager.sh`** - Gestor de versiones (install, update, version, list)
+- **`odevs-fixperms.sh`** - Gestor de permisos basado en configuración YAML
+- **`odevs-newrel.sh`** - Creador de releases con GitHub CLI
+- **`odevs-buildrel.sh`** - Constructor de paquetes configurables
+- **`odevs-delrel.sh`** - Eliminador de releases de forma segura
 
 ### `clientes/` - Proyectos por Cliente
 
@@ -66,6 +78,7 @@ Documentación compartida del workspace:
 
 - **`LICENSE`** - Licencia GPLv3 completa
 - **`CHANGELOG.md`** - Historial completo de cambios del proyecto
+- **`RELEASE.md`** - Guía completa de releases y gestión de versiones
 - Guías de desarrollo
 - Mejores prácticas
 - Documentación técnica
@@ -96,8 +109,18 @@ Plantillas para generar proyectos automáticamente:
 
 - **`templates/projects/`** - Plantilla base para proyectos Odoo
 - Estructura completa con Docker Compose, configuración y documentación
-- Archivos de configuración predefinidos (.env, odoo.conf, init.sql)
+- Archivos de configuración predefinidos (.env.j2, odoo.conf.j2, init.sql)
 - Dockerfile personalizable para imágenes específicas
+- Plantillas Jinja2 para generación dinámica de configuración
+
+### `configs/` - Configuraciones del Sistema
+
+Configuraciones centralizadas del workspace:
+
+- **`release-config.yml`** - Configuración completa de releases
+- Definición de archivos principales, opcionales y directorios
+- Patrones de exclusión específicos para proyectos Python
+- Configuración de tipos de release (full, user, minimal)
 
 ### `verticales/` - Proyectos por Vertical
 
@@ -111,7 +134,21 @@ Proyectos organizados por industria o vertical de negocio:
 
 ## 🚀 Inicio Rápido
 
-### 1. Configuración Inicial
+### 1. Instalación Automática (Recomendado)
+
+```bash
+# Instalar odoodevs automáticamente
+curl -fsSL https://raw.githubusercontent.com/opentech-solutions/odoodevs/main/install.sh | bash
+
+# El instalador:
+# - Descarga la última versión
+# - Instala en ~/developers/odoodevs
+# - Configura PATH automáticamente
+# - Crea directorios del workspace
+# - Protege instalaciones existentes
+```
+
+### 2. Instalación Manual
 
 ```bash
 # Clonar el workspace (opciones disponibles)
@@ -146,27 +183,27 @@ source ~/.bashrc  # o reiniciar terminal
 # ./bin/odoodevs-path.sh unset
 ```
 
-### 2. Crear un Nuevo Proyecto
+### 3. Crear un Nuevo Proyecto
 
 ```bash
 # Crear proyecto de cliente
-./bin/odoo-create.sh mi-cliente cliente
+odoo-create mi-cliente cliente
 
 # Crear proyecto vertical
-./bin/odoo-create.sh industria-textil vertical
+odoo-create industria-textil vertical
 ```
 
-### 3. Construir Imagen Personalizada
+### 4. Construir Imagen Personalizada
 
 ```bash
 # Navegar al proyecto creado
 cd clientes/mi-cliente  # o verticales/industria-textil
 
 # Construir imagen Docker/Podman personalizada
-./bin/odoo-image.sh
+odoo-image
 ```
 
-### 4. Levantar Servicios
+### 5. Levantar Servicios
 
 ```bash
 # Levantar servicios con Docker Compose
@@ -183,10 +220,11 @@ docker-compose up -d
 | `odoo-create.sh` | Scaffolding automático de proyectos Odoo |
 | `odoo-image.sh` | Construcción de imágenes Docker/Podman personalizadas |
 | `odoodevs-path.sh` | Configuración del PATH para comandos globales |
-| `setup-secrets.sh` | Configurar variables de entorno |
-| `backup-project.sh` | Backup automático de proyecto |
-| `deploy-project.sh` | Deploy a diferentes entornos |
-| `update-dependencies.sh` | Actualizar dependencias Python |
+| `odevs-manager.sh` | Gestor de versiones (install, update, version, list) |
+| `odevs-fixperms.sh` | Gestor de permisos basado en configuración YAML |
+| `odevs-newrel.sh` | Creador de releases con GitHub CLI |
+| `odevs-buildrel.sh` | Constructor de paquetes configurables |
+| `odevs-delrel.sh` | Eliminador de releases de forma segura |
 
 ### 🔧 Gestión del PATH
 
@@ -194,19 +232,46 @@ El script `odoodevs-path.sh` permite gestionar la configuración del PATH:
 
 ```bash
 # Configurar PATH de forma persistente
-./bin/odoodevs-path.sh set
+odoodevs-path set
 
 # Configurar PATH solo para la sesión actual
-./bin/odoodevs-path.sh session
+odoodevs-path session
 
 # Remover configuración persistente del PATH
-./bin/odoodevs-path.sh unset
+odoodevs-path unset
 
 # Ver estado actual del PATH
-./bin/odoodevs-path.sh status
+odoodevs-path status
 
 # Ver ayuda detallada
-./bin/odoodevs-path.sh help
+odoodevs-path help
+```
+
+### 📦 Gestión de Versiones
+
+El script `odevs-manager.sh` permite gestionar versiones de odoodevs:
+
+```bash
+# Ver versión instalada
+odevs-manager version
+
+# Actualizar a la última versión
+odevs-manager update
+
+# Instalar versión específica
+odevs-manager install v1.0.0
+
+# Listar versiones disponibles
+odevs-manager list
+
+# Ver información de instalación
+odevs-manager info
+
+# Verificar integridad de instalación
+odevs-manager check
+
+# Desinstalar completamente
+odevs-manager uninstall
 ```
 
 ## 📋 Convenciones de Nomenclatura
@@ -258,6 +323,8 @@ Este proyecto es de código abierto y está disponible públicamente bajo la **G
 Para información específica sobre la licencia, consulta el archivo `docs/LICENSE` en el repositorio.
 
 Para el historial completo de cambios, consulta el archivo `docs/CHANGELOG.md`.
+
+Para información sobre releases y gestión de versiones, consulta el archivo `docs/RELEASE.md`.
 
 ### Resumen de la Licencia GPLv3
 
