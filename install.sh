@@ -135,9 +135,17 @@ download_version() {
     
     log "INFO" "Descargando ${PROJECT_NAME} $version..."
     
-    # URL de descarga
-    local download_url="${RELEASE_URL}/${version}/${PROJECT_NAME}-${version}.tar.gz"
+    # Obtener URL de descarga desde GitHub API
+    local download_url
     local temp_file="/tmp/${PROJECT_NAME}-${version}.tar.gz"
+    
+    log "VERBOSE" "Obteniendo URL de descarga desde GitHub API..."
+    download_url=$(curl -s "${GITHUB_API}/releases/tags/${version}" | grep '"browser_download_url":' | grep "${PROJECT_NAME}-${version}.tar.gz" | sed -E 's/.*"([^"]+)".*/\1/')
+    
+    if [[ -z "$download_url" ]]; then
+        log "ERROR" "No se pudo obtener URL de descarga para versión $version"
+        exit 1
+    fi
     
     log "VERBOSE" "URL de descarga: $download_url"
     
