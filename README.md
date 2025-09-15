@@ -20,8 +20,6 @@ ws-odoo/
 │   └── odevs-delrel.sh    # Eliminador de releases
 ├── clientes/               # Proyectos específicos por cliente
 ├── docs/                   # Documentación compartida
-│   ├── LICENSE             # Licencia GPLv3
-│   ├── CHANGELOG.md        # Historial de cambios
 │   └── RELEASE.md          # Guía de releases
 ├── modulos/                # Módulos reutilizables
 ├── scaffolding/            # Plantillas para scaffolding
@@ -31,6 +29,8 @@ ws-odoo/
 │   └── release-config.yml   # Configuración de releases
 ├── sops/                   # Archivos de secretos gestionados por SOPS
 ├── verticales/             # Proyectos por vertical de negocio
+├── LICENSE                 # Licencia GPLv3
+├── CHANGELOG.md            # Historial de cambios
 ├── VERSION                 # Archivo de versión
 └── .gitignore              # Configuración de Git
 ```
@@ -76,8 +76,6 @@ Proyectos específicos desarrollados para clientes particulares:
 
 Documentación compartida del workspace:
 
-- **`LICENSE`** - Licencia GPLv3 completa
-- **`CHANGELOG.md`** - Historial completo de cambios del proyecto
 - **`RELEASE.md`** - Guía completa de releases y gestión de versiones
 - Guías de desarrollo
 - Mejores prácticas
@@ -134,7 +132,7 @@ Proyectos organizados por industria o vertical de negocio:
 
 ## 🚀 Inicio Rápido
 
-### 1. Instalación Automática (Recomendado)
+### 1. Instalación Automática (Para Usuarios)
 
 ```bash
 # Instalar odoodevs automáticamente
@@ -148,7 +146,7 @@ curl -fsSL https://raw.githubusercontent.com/opentech-solutions/odoodevs/main/in
 # - Protege instalaciones existentes
 ```
 
-### 2. Instalación Manual
+### 2. Instalación Manual (Para Desarrolladores)
 
 ```bash
 # Clonar el workspace (opciones disponibles)
@@ -320,9 +318,9 @@ Para problemas o preguntas:
 
 Este proyecto es de código abierto y está disponible públicamente bajo la **GNU General Public License v3.0 (GPL-3.0)**.
 
-Para información específica sobre la licencia, consulta el archivo `docs/LICENSE` en el repositorio.
+Para información específica sobre la licencia, consulta el archivo `LICENSE` en el repositorio.
 
-Para el historial completo de cambios, consulta el archivo `docs/CHANGELOG.md`.
+Para el historial completo de cambios, consulta el archivo `CHANGELOG.md`.
 
 Para información sobre releases y gestión de versiones, consulta el archivo `docs/RELEASE.md`.
 
